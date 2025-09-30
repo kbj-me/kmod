@@ -31,7 +31,7 @@ public class ConfigScreen extends Screen
     // button是按钮
     Button button;
     // 我们的GUI界面的背景图片的位置
-    ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/first_gui.png");
+    ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/configscreen.png");
     // 这里的content是我们用于渲染文字的内容
     Component title = Component.translatable("ui.kmod.title");
     Component content = Component.literal("aaa");
@@ -130,12 +130,13 @@ public class ConfigScreen extends Screen
         // 设置渲染时候的色彩和透明度是正常的。
         pGuiGraphics.setColor(1, 1, 1, 1);
         // 背景图的宽高
-        int textureWidth = 208;
-        int textureHeight = 156;
+        int textureWidth = 300;
+        int textureHeight = 200;
         // 渲染背景图
         pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
         // 渲染字体类型，内容，位置，颜色，
-        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2 - 10, 15, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2 - 10, 30, 0xeb0505);
         // 渲染编辑框
         this.editBox.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染 按钮

@@ -1,0 +1,24 @@
+{
+  "variants":
+  {
+    "facing=east":
+    {
+      "model": "kmod:block/energy_transporter",
+      "y": 90
+    },
+    "facing=north":
+    {
+      "model": "kmod:block/energy_transporter"
+    },
+    "facing=south":
+    {
+      "model": "kmod:block/energy_transporter",
+      "y": 180
+    },
+    "facing=west":
+    {
+      "model": "kmod:block/energy_transporter",
+      "y": 270
+    }
+  }
+}

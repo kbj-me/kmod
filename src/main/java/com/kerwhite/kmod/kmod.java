@@ -1,0 +1,23 @@
+package com.kerwhite.kmod;
+import com.kerwhite.kmod.regiter.ItemRegister;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import com.kerwhite.kmod.creativemodetab.KCreativeModeTab;
+import static com.kerwhite.kmod.regiter.register.*;
+
+@Mod(kmod.MODID)
+public class kmod
+{
+    public final static String MODID="kmod";
+
+    @SuppressWarnings("all")
+    public kmod()
+    {
+        KBLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        KITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        KBLOCKENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        KCreativeModeTab.register(FMLJavaModLoadingContext.get().getModEventBus());
+        ItemRegister.RegisterBus(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+}

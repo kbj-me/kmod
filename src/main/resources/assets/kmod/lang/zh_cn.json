@@ -1,0 +1,22 @@
+{
+  "lang.kmod.energy":"无线能量传输器能量剩余:",
+  "block.kmod.energy_transporter":"无线能量传输器",
+  "lang.kmod.energy.no":"请右击无线能量无线能量传送器",
+  "item.kmod.energy_viewer":"Kmod配置工具",
+  "lang.kmod.energyviewer.1":"切换模式1(能量查看模式)",
+  "lang.kmod.energyviewer.2":"切换模式2(能量输入输出速度调整模式)WIP",
+  "lang.kmod.energyviewer.3":"切换模式3(输入输出模式)WIP",
+  "lang.kmod.energyviewer.4":"当前模式:模式4(玩家绑定模式)",
+  "lang.kmod.energyviewer.tooltip.1":"当前模式:模式1(能量查看模式)",
+  "lang.kmod.energyviewer.tooltip.2":"当前模式:模式2(能量输入输出速度调整模式)WIP",
+  "lang.kmod.energyviewer.tooltip.3":"当前模式:模式3(输入输出模式)WIP",
+  "lang.kmod.energyviewer.tooltip.4":"当前模式:模式4(玩家绑定模式)",
+  "lang.kmod.energyviewer.tooltip.err":"一般您看到这条信息，说明mod出现了问题",
+  "lang.kmod.energyviewer.tooltip.def":"请右键地面更换模式",
+  "lang.kmod.energyviewer.err":"一般您看到这条信息，说明mod出现了问题",
+  "lang.kmod.use.1":"潜行+右键地面切换模式",
+  "lang.kmod.use.2":"右键方块使用",
+  "creativetab.kcreativemodetab":"Kmod",
+  "item.kmod.energy_viewer_gui":"高级Kmod配置工具(GUI)",
+  "lang.kmod.use.gui": "右击无线能量传输器打开界面"
+}

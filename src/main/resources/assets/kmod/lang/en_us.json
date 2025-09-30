@@ -1,0 +1,20 @@
+{
+  "lang.kmod.energy":"Energy Transporter Energy:",
+  "block.kmod.energy_transporter":"Wireless Energy transporter",
+  "lang.kmod.energy.no":"Please right click on the wireless energy transporter",
+  "item.kmod.energy_viewer":"Kmod Configer",
+  "lang.kmod.energyviewer.1":"Switch to Mode 1 (Energy Viewing Mode)",
+  "lang.kmod.energyviewer.2":"Switch to Mode 2 (Energy Input/Output Speed Adjustment Mode) WIP",
+  "lang.kmod.energyviewer.3":"Switch to Mode 3 (Input/Output Mode) WIP",
+  "lang.kmod.energyviewer.tooltip.1":"Current Mode: Mode 1 (Energy Viewing Mode)",
+  "lang.kmod.energyviewer.tooltip.2":"Current mode: Mode 2 (Energy input/output speed adjustment mode) WIP",
+  "lang.kmod.energyviewer.tooltip.3":"Current mode: Mode 3 (Input-Output Mode) WIP",
+  "lang.kmod.energyviewer.tooltip.err":"Generally, if you see this message, it means there is a problem with the mod.",
+  "lang.kmod.energyviewer.err":"Generally, if you see this message, it means there is a problem with the mod.",
+  "lang.kmod.use.1":"Sneak+Right Click to change the mode",
+  "lang.kmod.use.2":"Right Click to use",
+  "lang.kmod.energyviewer.tooltip.def":"Please Right Click the ground to change the mode",
+  "creativetab.kcreativemodetab":"Kmod",
+  "item.kmod.energy_viewer_gui":"Advanced Kmod Configer(GUI)",
+  "lang.kmod.use.gui": "Right click on the Wireless Energy transporter to open GUI"
+}

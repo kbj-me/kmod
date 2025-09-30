@@ -19,5 +19,6 @@
   "creativetab.kcreativemodetab":"Kmod",
   "item.kmod.energy_viewer_gui":"高级Kmod配置工具(GUI)",
   "lang.kmod.gui.title": "高级无线能量传输器配置工具",
-  "lang.kmod.use.gui": "右击无线能量传输器打开界面"
+  "lang.kmod.use.gui": "右击无线能量传输器打开界面",
+  "ui.kmod.rcb": "请右击无线能量传输器"
 }

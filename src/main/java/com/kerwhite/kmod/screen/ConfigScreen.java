@@ -20,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-
+@SuppressWarnings("all")
 public class ConfigScreen extends Screen
 {
     Player player;
@@ -34,7 +34,7 @@ public class ConfigScreen extends Screen
     ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/configscreen.png");
     // 这里的content是我们用于渲染文字的内容
     Component title = Component.translatable("ui.kmod.title");
-    Component content = Component.literal("aaa");
+    Component content = Component.translatable("ui.kmod.rcb");
     // 滑条，参考调节音量那个
     //Slider sliderBar;
     public ConfigScreen(Component pTitle, Player serverPlayer,Level level1,BlockPos pos1)
@@ -81,8 +81,8 @@ public class ConfigScreen extends Screen
         // 创建一个输入框，并设置其位置、大小以及默认文本
         // x,y,width,height,component
        // this.addRenderableWidget()
-        this.editBox = new EditBox(this.font, this.width / 2 - 100, 66, 200, 20, Component.translatable("gui." + kmod.MODID + ".first_gui"));
-        this.editBox2 = new EditBox(this.font, this.width / 2 - 100, 100, 50, 20, Component.translatable("gui." + kmod.MODID + ".first_gui"));
+        this.editBox = new EditBox(this.font, this.width / 2 - 100, 66, 50, 15, Component.translatable("gui." + kmod.MODID + ".first_gui"));
+        this.editBox2 = new EditBox(this.font, this.width / 2 - 100, 100, 50, 15, Component.translatable("gui." + kmod.MODID + ".first_gui2"));
 
         //this.editBox.canConsumeInput();
         this.addWidget(this.editBox2);
@@ -91,7 +91,7 @@ public class ConfigScreen extends Screen
         // button的应该通过builder获得，其中的起一个参数是按钮的名称，第二个参数是按钮按下之后会有什么操作的回调函数。
         // pos是设置按钮的位置
         // size是按钮的大小
-        this.button = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".first_gui.save"), pButton -> {HandleButton(1);}).pos(this.width / 2 - 40, 96).size(80, 20).build();
+        this.button = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".first_gui.save"), pButton -> {HandleButton(1);}).pos(this.width / 2 + 40, 100).size(80, 15).build();
         this.addWidget(this.button);
         // 滑条，位置x，y，宽高w，h，滑条名称前缀，后缀，滑条的最小值，最大值，初始值，是否渲染文字
        // this.sliderBar = new ExtendedSlider(this.width / 2 - 100, 120, 200, 10, Component.translatable("gui." + ExampleMod.MODID + ".first_gui.slider"), Component.empty(), 0, 100, 0, true);
@@ -104,15 +104,20 @@ public class ConfigScreen extends Screen
         switch (id)
         {
             case 1:
+                UpdatePacketWrapper wrapper = new UpdatePacketWrapper();
+                FriendlyByteBuf buf = wrapper.GetBuf();
 
-
+                //wrapper.SetBuf(wrapper.GetBuf().writeInt);
+                buf.writeInt(10);
+                buf.writeUtf("");
+                buf.writeBoolean(true);
+                buf.writeBoolean(false);
+                buf.writeBlockPos(this.pos);
+                wrapper.CreatePacket();
+                wrapper.SendPacketToServer();
               //  Minecraft.getInstance().levelRenderer.setD
                 //content = Component.literal("www");
-                //UpdatePacketWrapper.SetFriendlyByteBuff(UpdatePacketWrapper.GetFriendlyByteBuff().writeUtf("www"));
-               // UpdatePacketWrapper.CreatePacket();
                 //UpdatePacketWrapper.SendPacketToServer();
-                //UpdatePacketWrapper.clean();
-                //UpdatePacketWrapper.setkUpdatePacket(UpdatePacketWrapper.getkUpdatePacket().);
                 //ModMessages.sendToServer(new KUpdatePacket(new FriendlyByteBuf(Unpooled.buffer()).writeUtf(this.editBox.getValue())));
                 break;
             case 2:
@@ -136,7 +141,7 @@ public class ConfigScreen extends Screen
         pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
         // 渲染字体类型，内容，位置，颜色，
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2 - 10, 30, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30, 0xeb0505);
         // 渲染编辑框
         this.editBox.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染 按钮

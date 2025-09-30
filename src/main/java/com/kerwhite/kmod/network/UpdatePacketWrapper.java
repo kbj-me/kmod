@@ -40,6 +40,10 @@ public class UpdatePacketWrapper
     }
     public void Clean()
     {
-        this.friendlyByteBuf.release();
+        if(this.friendlyByteBuf.refCnt()>0)
+        {
+            this.friendlyByteBuf.release();
+        }
+
     }
 }

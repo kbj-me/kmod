@@ -43,6 +43,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     public int energy=0;
     public int maxIO=50;
     public String bindPlayer="";
+    public boolean isPlayerMode=false;
     public boolean isOut=false;
     @Nullable
     @Override
@@ -131,9 +132,17 @@ public class BlockEntityEnergyTransporter extends BlockEntity
         this.bindPlayer = bindPlayer;
         this.setChanged();
     }
+
+    public void setPlayerMode(boolean playerMode)
+    {
+        isPlayerMode = playerMode;
+        this.setChanged();
+    }
+
     public void setisOut(boolean out)
     {
         this.isOut = out;
+        this.setChanged();
     }
     public void setMaxIO(int maxIO)
     {
@@ -149,6 +158,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     public void load(CompoundTag compoundTag)
     {
         this.energy = compoundTag.getInt("KEnergy");
+        this.isPlayerMode = compoundTag.getBoolean("IsPlayerMode");
         this.maxIO = compoundTag.getInt("MaxIO");
         this.isOut = compoundTag.getBoolean("IsOut");
         this.bindPlayer = compoundTag.getString("BindPlayer");
@@ -161,6 +171,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
         compoundTag.putString("BindPlayer",this.bindPlayer);
         compoundTag.putBoolean("IsOut",this.isOut);
         compoundTag.putInt("KEnergy", this.energy);
+        compoundTag.putBoolean("IsPlayerMode",this.isPlayerMode);
         super.saveAdditional(compoundTag);
     }
     @Override
@@ -186,8 +197,16 @@ public class BlockEntityEnergyTransporter extends BlockEntity
                 if(BlockEntity.energy>=BlockEntity.maxIO)
                 {
                     BlockEntity.energy-=BlockEntity.maxIO;
-                    KWSD.addE(BlockEntity.bindPlayer,50);
+                    if(BlockEntity.isPlayerMode==true)
+                    {
+                        KWSD.addE(BlockEntity.bindPlayer, BlockEntity.maxIO);
+                    }
+                    else if(BlockEntity.isPlayerMode==false)
+                    {
+                        KWSD.addPublic(BlockEntity.maxIO);
+                    }
                 }
+
                 int tpe=0;
                 Player nearestPlayer = Level.getNearestPlayer(Pos.getX(), Pos.getY(), Pos.getZ(), 10, false);
                 BlockEntity BE=Level.getBlockEntity(Pos);

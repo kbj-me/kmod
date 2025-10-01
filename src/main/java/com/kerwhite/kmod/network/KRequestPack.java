@@ -33,10 +33,11 @@ public class KRequestPack
         {
             KWorldSavedData KWSD = KWorldSavedData.get(context.getSender().level());
             int res = KWSD.getE(context.getSender().getName().toString());
+            int pub = KWSD.getPublicEnergy();
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
             buf.writeInt(res);
+            buf.writeInt(pub);
             ModMessages.sendToPlayer(new KFeedBackPack(buf),context.getSender());
-            //context.getSender().sendSystemMessage(Component.literal("bbbbbb"));
         });
         context.setPacketHandled(true);
         return true;

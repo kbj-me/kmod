@@ -1,6 +1,8 @@
 package com.kerwhite.kmod.item;
 
 
+import com.kerwhite.kmod.network.KRequestPack;
+import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.screen.GuiOpenWrapper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -25,6 +27,8 @@ public class EnergyViewerGUI extends Item {
         if(level.isClientSide())
         {
             GuiOpenWrapper.openFirstGui(player,level,pos);
+
+
         }
 
        // ItemStack itemStack = useOnContext.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);

@@ -30,16 +30,6 @@ public class testitem extends Item {
         {
             ModMessages.sendToServer(new KRequestPack());
         }
-
-        // ItemStack itemStack = useOnContext.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
-        // if (level.isClientSide())
-        // {
-        // BlockEntity BE = level.getBlockEntity(pos);
-        // if (BE instanceof BlockEntityEnergyTransporter)
-        //{
-        //ModMessages.sendToServer(new KUpdatePacket(new FriendlyByteBuf(Unpooled.buffer()).writeUtf("hello")));
-        //}
-        // }
         super.useOn(useOnContext);
         return InteractionResult.SUCCESS;
     }

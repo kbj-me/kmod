@@ -3,6 +3,7 @@ package com.kerwhite.kmod.screen;
 import java.util.Random;
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import com.kerwhite.kmod.kmod;
+import com.kerwhite.kmod.network.KRequestPack;
 import com.kerwhite.kmod.network.KUpdatePacket;
 import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.network.UpdatePacketWrapper;
@@ -42,9 +43,19 @@ public class ConfigScreen extends Screen
     int nextint = random.nextInt();
     ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/configscreen.png");
     ResourceLocation GUI_TEXTURE_1 = new ResourceLocation(kmod.MODID, "textures/gui/cf1.png");
-    Component title = Component.translatable("ui.kmod.title");
-    Component content = Component.translatable("ui.kmod.rcb");
-    public ConfigScreen(Component pTitle, Player serverPlayer,Level level1,BlockPos pos1)
+    private Component publicenergy=Component.literal("Error to load public energy.");
+    private Component privateenergy=Component.literal("Error to load private energy");
+    public Component content = Component.translatable("ui.kmod.rcb");
+
+    public void setPrivateenergy(Component privateenergy)
+    {
+        this.privateenergy = privateenergy;
+    }
+    public void setPublicenergy(Component publicenergy)
+    {
+        this.publicenergy = publicenergy;
+    }
+    public ConfigScreen(Component pTitle, Player serverPlayer, Level level1, BlockPos pos1)
     {
         super(pTitle);
         this.player=serverPlayer;
@@ -61,6 +72,7 @@ public class ConfigScreen extends Screen
         {
             content = Component.literal(Integer.toString(((BlockEntityEnergyTransporter)be).energy));
         }
+        ModMessages.sendToServer(new KRequestPack());
     }
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button)
@@ -198,6 +210,8 @@ public class ConfigScreen extends Screen
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.bindplayer"),this.width / 2-100, 70, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isplayermode"),this.width / 2-100, 90, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, this.publicenergy, this.width / 2, 170, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, this.privateenergy, this.width / 2, 180, 0xeb0505);
         // 渲染编辑框
         this.editBox.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染 按钮

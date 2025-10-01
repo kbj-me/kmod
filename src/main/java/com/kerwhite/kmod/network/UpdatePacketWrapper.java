@@ -36,7 +36,7 @@ public class UpdatePacketWrapper
     public void SendPacketToServer()
     {
         ModMessages.sendToServer(kupdatepacket);
-        this.Clean();
+       // this.Clean();
     }
     public void Clean()
     {

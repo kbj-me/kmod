@@ -65,6 +65,10 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     public void handleUpdateTag(CompoundTag tag)
     {
         this.energy = tag.getInt("KEnergy");
+        this.maxIO = tag.getInt("MaxIO");
+        this.isPlayerMode = tag.getBoolean("IsPlayerMode");
+        this.isOut = tag.getBoolean("IsOut");
+        this.bindPlayer = tag.getString("BindPlayer");
         super.handleUpdateTag(tag);
     }
     @Override
@@ -72,6 +76,10 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     {
         CompoundTag compoundNBT = super.getUpdateTag();
         compoundNBT.putInt("KEnergy", this.energy);
+        compoundNBT.putInt("MaxIO",this.maxIO);
+        compoundNBT.putString("BindPlayer",this.bindPlayer);
+        compoundNBT.putBoolean("IsOut",this.isOut);
+        compoundNBT.putBoolean("IsPlayerMode",this.isPlayerMode);
         super.getUpdateTag();
         return compoundNBT;
     }

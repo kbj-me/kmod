@@ -1,5 +1,6 @@
 package com.kerwhite.kmod.screen;
 
+import java.util.Random;
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import com.kerwhite.kmod.kmod;
 import com.kerwhite.kmod.network.KUpdatePacket;
@@ -37,8 +38,10 @@ public class ConfigScreen extends Screen
     public String bindPlayer="";
     public boolean isPlayerMode=false;
     public boolean isOut=false;
-    //Button button4;
+    Random random = new Random(System.currentTimeMillis());
+    int nextint = random.nextInt();
     ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/configscreen.png");
+    ResourceLocation GUI_TEXTURE_1 = new ResourceLocation(kmod.MODID, "textures/gui/cf1.png");
     Component title = Component.translatable("ui.kmod.title");
     Component content = Component.translatable("ui.kmod.rcb");
     public ConfigScreen(Component pTitle, Player serverPlayer,Level level1,BlockPos pos1)
@@ -171,12 +174,24 @@ public class ConfigScreen extends Screen
         this.renderBackground(pGuiGraphics);
         //this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 设置渲染时候的色彩和透明度是正常的。
-        pGuiGraphics.setColor(1, 1, 1, 1);
+
         // 背景图的宽高
         int textureWidth = 300;
         int textureHeight = 200;
         // 渲染背景图
-        pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
+        pGuiGraphics.setColor(1, 1, 1, 1);
+       // if(nextint%20 == 0)
+      //  {
+           // pGuiGraphics.blit(GUI_TEXTURE_1, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
+       // }
+        //else if(nextint%20 == 1)
+       // {
+           // pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
+       // }
+       // else
+       // {
+            pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
+       // }
         // 渲染字体类型，内容，位置，颜色，
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.maxio"),this.width / 2-100, 50, 0x000000);

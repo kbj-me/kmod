@@ -31,7 +31,7 @@ public class ConfigScreen extends Screen
     Player player;
     Level level;
     BlockPos pos;
-
+    boolean res ;
     EditBox editBox;
     EditBox editBox2;
     private Button button;
@@ -77,7 +77,14 @@ public class ConfigScreen extends Screen
             content = Component.literal(Integer.toString(((BlockEntityEnergyTransporter)be).energy));
         }
         this.Getint(level,pos);
-        this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.input1") : Component.translatable("gui.kmod.input2"));
+        if(res)
+        {
+            this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.input1") : Component.translatable("gui.kmod.input2"));
+        }
+        else
+        {
+            this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.err") : Component.translatable("gui.kmod.input2"));
+        }
         ModMessages.sendToServer(new KRequestPack());
     }
     @Override
@@ -101,13 +108,14 @@ public class ConfigScreen extends Screen
         // 创建一个输入框，并设置其位置、大小以及默认文本
         // x,y,width,height,component
        // this.addRenderableWidget()
-        boolean res = this.Getint(level,pos);
         this.editBox = new EditBox(this.font, this.width / 2 - 60, 50, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui"));
         this.editBox.setFilter(input->input.isEmpty()||input.matches("\\d+"));
         this.editBox2 = new EditBox(this.font, this.width / 2 - 60, 70, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui2"));
         this.editBox.setValue(String.valueOf(this.maxIO));
         this.editBox2.setValue(String.valueOf(this.bindPlayer));
         //this.editBox.canConsumeInput();
+
+        res = this.Getint(level,pos);
         this.addWidget(this.editBox2);
         this.addWidget(this.editBox);
         this.setInitialFocus(this.editBox);
@@ -120,6 +128,8 @@ public class ConfigScreen extends Screen
         this.button3 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioset"), pButton -> {HandleButton(3);}).pos(this.width / 2 + 60, 50).size(40, 15).build();
         this.button5 = new Button.Builder(Component.translatable("gui.kmod.err"), pButton -> {HandleButton(5);}).pos(this.width / 2 + 20, 90).size(80, 15).build();
         this.button5.setTooltip(Tooltip.create(Component.translatable("gui.kmod.select")));
+        this.button4.setTooltip(Tooltip.create(Component.translatable("gui.kmod.bindplayer")));
+        this.button5.setTooltip(Tooltip.create(Component.translatable("gui.kmod.maxio")));
         if(res)
         {
             this.button5.setMessage(!this.isPlayerMode?Component.translatable("gui.kmod.input1"):Component.translatable("gui.kmod.input2"));

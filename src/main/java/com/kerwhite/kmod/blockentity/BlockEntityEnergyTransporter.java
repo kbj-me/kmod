@@ -1,5 +1,6 @@
 package com.kerwhite.kmod.blockentity;
 
+import com.google.common.collect.Queues;
 import com.kerwhite.kmod.kmod;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,8 +35,10 @@ import net.minecraftforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 
 import static com.kerwhite.kmod.regiter.register.ENERGYTRANSPORTER;
 
@@ -94,10 +98,11 @@ public class BlockEntityEnergyTransporter extends BlockEntity
   //  {
         //return new FirstMenu(pContainerId,pPlayerInventory,this,this.data);
     //}
-    private LazyOptional<IEnergyStorage> lazyOptional=LazyOptional.of(()->new IEnergyStorage()
+    private LazyOptional<IEnergyStorage> IN_lazyOptional=LazyOptional.of(()->new IEnergyStorage()
     {
         @Override
-        public int receiveEnergy(int maxReceive, boolean simulate) {
+        public int receiveEnergy(int maxReceive, boolean simulate)
+        {
             if (!simulate)
             {
                 BlockEntityEnergyTransporter.this.energy += maxReceive;
@@ -108,33 +113,109 @@ public class BlockEntityEnergyTransporter extends BlockEntity
             }
             return maxReceive;
         }
-
         @Override
-        public int extractEnergy(int maxExtract, boolean simulate) {
+        public int extractEnergy(int maxExtract, boolean simulate)
+        {
             return 0;
         }
-
         @Override
-        public int getEnergyStored() {
+        public int getEnergyStored()
+        {
             return BlockEntityEnergyTransporter.this.energy;
         }
-
         @Override
-        public int getMaxEnergyStored() {
+        public int getMaxEnergyStored()
+        {
             return 99999;
         }
-
         @Override
-        public boolean canExtract() {
+        public boolean canExtract()
+        {
             return false;
         }
-
         @Override
-        public boolean canReceive() {
+        public boolean canReceive()
+        {
             return true;
         }
     });
 
+
+    private final Queue<Direction> directionQueue = Queues.newArrayDeque(Direction.Plane.HORIZONTAL);
+
+    private void transferEnergy(@Nonnull Level world)
+    {
+        this.directionQueue.offer(this.directionQueue.remove());
+        for (Direction direction : this.directionQueue)
+        {
+            BlockEntity tileEntity = world.getBlockEntity(this.getBlockPos().relative(direction));
+            if (tileEntity != null)
+            {
+                tileEntity.getCapability(ForgeCapabilities.ENERGY, direction.getOpposite()).ifPresent(e ->
+                {
+                    if (e.canReceive())
+                    {
+                        int diff = e.receiveEnergy(Math.min(500, this.energy), false);
+                        if (diff != 0)
+                        {
+                            this.energy -= diff;
+                            this.setChanged();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+
+    private LazyOptional<IEnergyStorage> OUT_lazyOptional=LazyOptional.of(()->new IEnergyStorage()
+    {
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate)
+        {
+          //  if (!simulate)
+            //{
+              //  BlockEntityEnergyTransporter.this.energy += maxReceive;
+              //  if (maxReceive != 0)
+               // {
+                //    BlockEntityEnergyTransporter.this.setChanged();
+               // }
+            //}
+            return maxReceive;
+        }
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate)
+        {
+            return 0;
+        }
+        @Override
+        public int getEnergyStored()
+        {
+            return BlockEntityEnergyTransporter.this.energy;
+        }
+        @Override
+        public int getMaxEnergyStored()
+        {
+            return 99999;
+        }
+        @Override
+        public boolean canExtract()
+        {
+            return true;
+        }
+        @Override
+        public boolean canReceive()
+        {
+            return false;
+        }
+    });
     public void setBindPlayer(String bindPlayer)
     {
         this.bindPlayer = bindPlayer;
@@ -186,7 +267,8 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side)
     {
         boolean isEnergy = Objects.equals(cap, ForgeCapabilities.ENERGY) && side.getAxis().isHorizontal();
-        return isEnergy ? this.lazyOptional.cast() : super.getCapability(cap, side);
+
+        return isEnergy ? this.IN_lazyOptional.cast() : super.getCapability(cap, side);
     }
     public BlockEntityEnergyTransporter(BlockEntityType<?>type, BlockPos pos, BlockState state)
     {
@@ -200,8 +282,10 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     {
         if(Level!=null && !Level.isClientSide)
         {
-                Level.sendBlockUpdated(Pos,Level.getBlockState(Pos),Level.getBlockState(Pos),3);
-                KWorldSavedData KWSD = KWorldSavedData.get(Level);
+            Level.sendBlockUpdated(Pos,Level.getBlockState(Pos),Level.getBlockState(Pos),3);
+            KWorldSavedData KWSD = KWorldSavedData.get(Level);
+            if(!BlockEntity.isOut)
+            {
                 if(BlockEntity.energy>=BlockEntity.maxIO)
                 {
                     BlockEntity.energy-=BlockEntity.maxIO;
@@ -214,23 +298,26 @@ public class BlockEntityEnergyTransporter extends BlockEntity
                         KWSD.addPublic(BlockEntity.maxIO);
                     }
                 }
-
-                int tpe=0;
-                Player nearestPlayer = Level.getNearestPlayer(Pos.getX(), Pos.getY(), Pos.getZ(), 10, false);
-                BlockEntity BE=Level.getBlockEntity(Pos);
-                if(nearestPlayer!=null)
+            }
+            else if(BlockEntity.isOut)
+            {
+                if(BlockEntity.isPlayerMode==true)
                 {
-                   // nearestPlayer.sendSystemMessage(Component.literal(Integer.toString(KWSD.getE(BlockEntity.bindPlayer))));
+                    if(KWSD.getE(BlockEntity.bindPlayer)>=BlockEntity.maxIO)
+                    {
+                        BlockEntity.energy+= BlockEntity.maxIO;
+                        KWSD.addE(BlockEntity.bindPlayer,-BlockEntity.maxIO);
+                    }
                 }
-
-                if(BE instanceof BlockEntityEnergyTransporter)
+                else if (!BlockEntity.isPlayerMode)
                 {
-                    tpe = ((BlockEntityEnergyTransporter) BE).energy;
+                    if(KWSD.getPublicEnergy()>= BlockEntity.maxIO)
+                    {
+                        BlockEntity.energy+= BlockEntity.maxIO;
+                        KWSD.addPublic(-BlockEntity.maxIO);
+                    }
                 }
-                Component component = Component.literal("Energy"+tpe);
-                if(nearestPlayer!=null){
-                //    nearestPlayer.sendSystemMessage(component);
-                }
+            }
         }
         if (!Level.isClientSide)
         {

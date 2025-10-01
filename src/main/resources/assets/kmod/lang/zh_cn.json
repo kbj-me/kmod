@@ -28,7 +28,10 @@
   "gui.kmod.bindplayerget": "获取",
   "gui.kmod.bindplayerset": "设置",
   "lang.kmod.gui.isplayermode": "玩家模式切换",
-  "gui.kmod.input1":"输入公开能量",
-  "gui.kmod.input2": "输入私有能量",
+  "gui.kmod.input1":"输入/输出公开能量",
+  "gui.kmod.input2": "输入/输出私有能量",
+  "gui.kmod.select": "右键改变玩家模式(能量传输源为公共能量或私有能量)",
+  "gui.kmod.maxio": "设置最大单次(每tick)输入/输出FE",
+  "gui.kmod.bindplayer":"设置绑定的玩家名字(如果玩家模式为传输私有能量的话)",
   "gui.kmod.err":"错误"
 }

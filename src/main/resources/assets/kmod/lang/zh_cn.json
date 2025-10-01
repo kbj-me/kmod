@@ -27,5 +27,8 @@
   "lang.kmod.gui.bindplayer": "绑定的玩家",
   "gui.kmod.bindplayerget": "获取",
   "gui.kmod.bindplayerset": "设置",
-  "lang.kmod.gui.isplayermode": "玩家模式"
+  "lang.kmod.gui.isplayermode": "玩家模式切换",
+  "gui.kmod.input1":"输入公开能量",
+  "gui.kmod.input2": "输入私有能量",
+  "gui.kmod.err":"错误"
 }

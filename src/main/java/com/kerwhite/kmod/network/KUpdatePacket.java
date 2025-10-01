@@ -66,7 +66,7 @@ public class KUpdatePacket
                 ((BlockEntityEnergyTransporter)be).setisOut(this.isOut);
             }
             //serverPlayer.sendSystemMessage(Component.literal(str));
-
+            //ModMessages.sendToPlayer(new KUpdateFeedBack(),context.getSender());
             //EntityType.COW.spawn(serverLevel, (CompoundTag) null,null,serverPlayer.blockPosition(), MobSpawnType.SPAWN_EGG,true,false);
         });
         context.setPacketHandled(true);

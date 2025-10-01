@@ -1,6 +1,8 @@
 package com.kerwhite.kmod.screen;
 
 import java.util.Random;
+import java.util.logging.Logger;
+
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import com.kerwhite.kmod.kmod;
 import com.kerwhite.kmod.network.KRequestPack;
@@ -12,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -31,10 +34,11 @@ public class ConfigScreen extends Screen
 
     EditBox editBox;
     EditBox editBox2;
-    Button button;
-    Button button2;
-    Button button3;
-    Button button4;
+    private Button button;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    public Button button5;
     public int maxIO=0;
     public String bindPlayer="";
     public boolean isPlayerMode=false;
@@ -72,6 +76,8 @@ public class ConfigScreen extends Screen
         {
             content = Component.literal(Integer.toString(((BlockEntityEnergyTransporter)be).energy));
         }
+        this.Getint(level,pos);
+        this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.input1") : Component.translatable("gui.kmod.input2"));
         ModMessages.sendToServer(new KRequestPack());
     }
     @Override
@@ -95,7 +101,7 @@ public class ConfigScreen extends Screen
         // 创建一个输入框，并设置其位置、大小以及默认文本
         // x,y,width,height,component
        // this.addRenderableWidget()
-        this.Getint(level,pos);
+        boolean res = this.Getint(level,pos);
         this.editBox = new EditBox(this.font, this.width / 2 - 60, 50, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui"));
         this.editBox.setFilter(input->input.isEmpty()||input.matches("\\d+"));
         this.editBox2 = new EditBox(this.font, this.width / 2 - 60, 70, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui2"));
@@ -112,10 +118,24 @@ public class ConfigScreen extends Screen
         this.button4 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerset"), pButton -> {HandleButton(4);}).pos(this.width / 2 + 60, 70).size(40, 15).build();
         this.button2 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioget"), pButton -> {HandleButton(2);}).pos(this.width / 2 + 20, 50).size(40, 15).build();
         this.button3 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioset"), pButton -> {HandleButton(3);}).pos(this.width / 2 + 60, 50).size(40, 15).build();
+        this.button5 = new Button.Builder(Component.translatable("gui.kmod.err"), pButton -> {HandleButton(5);}).pos(this.width / 2 + 20, 90).size(80, 15).build();
+        this.button5.setTooltip(Tooltip.create(Component.translatable("gui.kmod.select")));
+        if(res)
+        {
+            this.button5.setMessage(!this.isPlayerMode?Component.translatable("gui.kmod.input1"):Component.translatable("gui.kmod.input2"));
+        }
+        else
+        {
+            this.button.setMessage(Component.translatable("gui.kmod.err"));
+            this.button2.setMessage(Component.translatable("gui.kmod.err"));
+            this.button3.setMessage(Component.translatable("gui.kmod.err"));
+            this.button4.setMessage(Component.translatable("gui.kmod.err"));
+        }
         this.addWidget(this.button);
         this.addWidget(this.button2);
         this.addWidget(this.button3);
         this.addWidget(this.button4);
+        this.addWidget(this.button5);
         // 滑条，位置x，y，宽高w，h，滑条名称前缀，后缀，滑条的最小值，最大值，初始值，是否渲染文字
        // this.sliderBar = new ExtendedSlider(this.width / 2 - 100, 120, 200, 10, Component.translatable("gui." + ExampleMod.MODID + ".first_gui.slider"), Component.empty(), 0, 100, 0, true);
        // this.addWidget(this.sliderBar);
@@ -138,20 +158,18 @@ public class ConfigScreen extends Screen
     }
     public void HandleButton(int id)
     {
-        switch (id)
-        {
+        switch (id) {
             case 1:
-                this.Getint(level,pos);
+                this.Getint(level, pos);
                 this.editBox2.setValue(String.valueOf(this.bindPlayer));
                 break;
             case 2:
-                this.Getint(level,pos);
+                this.Getint(level, pos);
                 this.editBox.setValue(String.valueOf(this.maxIO));
-                    //this.editBox.setValue(String.valueOf(MI));
+                //this.editBox.setValue(String.valueOf(MI));
                 break;
             case 3:
-                if(this.Getint(level,pos) && editBox.getValue()!="")
-                {
+                if (this.Getint(level, pos) && editBox.getValue() != "") {
                     UpdatePacketWrapper upw = new UpdatePacketWrapper();
                     FriendlyByteBuf buf = upw.GetBuf();
                     buf.writeInt(Integer.parseInt(editBox.getValue()));
@@ -164,8 +182,7 @@ public class ConfigScreen extends Screen
                 }
                 break;
             case 4:
-                if(this.Getint(level,pos) && editBox2.getValue()!="")
-                {
+                if (this.Getint(level, pos) && editBox2.getValue() != "") {
                     UpdatePacketWrapper upw = new UpdatePacketWrapper();
                     FriendlyByteBuf buf = upw.GetBuf();
                     buf.writeInt(this.maxIO);
@@ -175,6 +192,32 @@ public class ConfigScreen extends Screen
                     buf.writeBlockPos(this.pos);
                     upw.CreatePacket();
                     upw.SendPacketToServer();
+                }
+                break;
+            case 5:
+                UpdatePacketWrapper upw = new UpdatePacketWrapper();
+                FriendlyByteBuf buf = upw.GetBuf();
+                if (this.Getint(level, pos))
+                {
+                    buf.writeInt(this.maxIO);
+                    buf.writeUtf(this.bindPlayer);
+                    if(button5.getMessage().getString().equals(Component.translatable("gui.kmod.input1").getString()))
+                    {
+                        System.out.println("public");
+                        buf.writeBoolean(true);
+                    }
+                    else
+                    {
+                        System.out.println("private");
+                        buf.writeBoolean(false);
+                    }
+                    System.out.println(button5.getMessage().getString());
+                    System.out.println(Component.translatable("gui.kmod.input1").getString());
+                    buf.writeBoolean(this.isOut);
+                    buf.writeBlockPos(this.pos);
+                    upw.CreatePacket();
+                    upw.SendPacketToServer();
+                    this.Getint(level, pos);
                 }
                 break;
         }
@@ -219,6 +262,7 @@ public class ConfigScreen extends Screen
         this.button2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button3.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button4.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.button5.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.editBox2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染滑条
         //this.sliderBar.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);

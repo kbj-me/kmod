@@ -39,6 +39,8 @@ public class KFeedBackPack
 
             ((ConfigScreen)Minecraft.getInstance().screen).setPrivateenergy(Component.literal("PrivateEnergy:").append(String.valueOf(result)));
             ((ConfigScreen)Minecraft.getInstance().screen).setPublicenergy(Component.literal("PublicEnergy:").append(String.valueOf(pe)));
+
+
         });
         context.setPacketHandled(true);
         return true;

@@ -42,7 +42,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
 {
     public int energy=0;
     public int maxIO=50;
-    public String bindPlayer="";
+    public String bindPlayer="literal{MCLR_747}";
     public boolean isPlayerMode=false;
     public boolean isOut=false;
     @Nullable
@@ -143,7 +143,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
 
     public void setPlayerMode(boolean playerMode)
     {
-        isPlayerMode = playerMode;
+        this.isPlayerMode = playerMode;
         this.setChanged();
     }
 

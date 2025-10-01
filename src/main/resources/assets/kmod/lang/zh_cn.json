@@ -23,5 +23,9 @@
   "ui.kmod.rcb": "请右击无线能量传输器",
   "lang.kmod.gui.maxio": "最大输入输出",
   "gui.kmod.maxioget": "获取",
-  "gui.kmod.maxioset": "设置"
+  "gui.kmod.maxioset": "设置",
+  "lang.kmod.gui.bindplayer": "绑定的玩家",
+  "gui.kmod.bindplayerget": "获取",
+  "gui.kmod.bindplayerset": "设置",
+  "lang.kmod.gui.isplayermode": "玩家模式"
 }

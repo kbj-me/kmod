@@ -32,7 +32,7 @@ public class ConfigScreen extends Screen
     Button button;
     Button button2;
     Button button3;
-
+    Button button4;
     public int maxIO=0;
     public String bindPlayer="";
     public boolean isPlayerMode=false;
@@ -47,6 +47,7 @@ public class ConfigScreen extends Screen
         this.player=serverPlayer;
         this.pos=pos1;
         this.level=level1;
+        //Minecraft.getInstance().screen
     }
     @Override
     public void tick()
@@ -84,6 +85,7 @@ public class ConfigScreen extends Screen
         this.editBox.setFilter(input->input.isEmpty()||input.matches("\\d+"));
         this.editBox2 = new EditBox(this.font, this.width / 2 - 60, 70, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui2"));
         this.editBox.setValue(String.valueOf(this.maxIO));
+        this.editBox2.setValue(String.valueOf(this.bindPlayer));
         //this.editBox.canConsumeInput();
         this.addWidget(this.editBox2);
         this.addWidget(this.editBox);
@@ -91,12 +93,14 @@ public class ConfigScreen extends Screen
         // button的应该通过builder获得，其中的起一个参数是按钮的名称，第二个参数是按钮按下之后会有什么操作的回调函数。
         // pos是设置按钮的位置
         // size是按钮的大小
-        this.button = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".first_gui.save"), pButton -> {HandleButton(1);}).pos(this.width / 2 + 20, 70).size(40, 15).build();
+        this.button = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerget"), pButton -> {HandleButton(1);}).pos(this.width / 2 + 20, 70).size(40, 15).build();
+        this.button4 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerset"), pButton -> {HandleButton(4);}).pos(this.width / 2 + 60, 70).size(40, 15).build();
         this.button2 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioget"), pButton -> {HandleButton(2);}).pos(this.width / 2 + 20, 50).size(40, 15).build();
         this.button3 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioset"), pButton -> {HandleButton(3);}).pos(this.width / 2 + 60, 50).size(40, 15).build();
         this.addWidget(this.button);
         this.addWidget(this.button2);
         this.addWidget(this.button3);
+        this.addWidget(this.button4);
         // 滑条，位置x，y，宽高w，h，滑条名称前缀，后缀，滑条的最小值，最大值，初始值，是否渲染文字
        // this.sliderBar = new ExtendedSlider(this.width / 2 - 100, 120, 200, 10, Component.translatable("gui." + ExampleMod.MODID + ".first_gui.slider"), Component.empty(), 0, 100, 0, true);
        // this.addWidget(this.sliderBar);
@@ -122,21 +126,8 @@ public class ConfigScreen extends Screen
         switch (id)
         {
             case 1:
-                //UpdatePacketWrapper wrapper = new UpdatePacketWrapper();
-                //FriendlyByteBuf buf = wrapper.GetBuf();
-
-                //wrapper.SetBuf(wrapper.GetBuf().writeInt);
-               // buf.writeInt(10);
-               // buf.writeUtf("");
-               // buf.writeBoolean(true);
-               // buf.writeBoolean(false);
-               // buf.writeBlockPos(this.pos);
-               // wrapper.CreatePacket();
-               // wrapper.SendPacketToServer();
-              //  Minecraft.getInstance().levelRenderer.setD
-                //content = Component.literal("www");
-                //UpdatePacketWrapper.SendPacketToServer();
-                //ModMessages.sendToServer(new KUpdatePacket(new FriendlyByteBuf(Unpooled.buffer()).writeUtf(this.editBox.getValue())));
+                this.Getint(level,pos);
+                this.editBox2.setValue(String.valueOf(this.bindPlayer));
                 break;
             case 2:
                 this.Getint(level,pos);
@@ -150,6 +141,20 @@ public class ConfigScreen extends Screen
                     FriendlyByteBuf buf = upw.GetBuf();
                     buf.writeInt(Integer.parseInt(editBox.getValue()));
                     buf.writeUtf(this.bindPlayer);
+                    buf.writeBoolean(this.isPlayerMode);
+                    buf.writeBoolean(this.isOut);
+                    buf.writeBlockPos(this.pos);
+                    upw.CreatePacket();
+                    upw.SendPacketToServer();
+                }
+                break;
+            case 4:
+                if(this.Getint(level,pos) && editBox2.getValue()!="")
+                {
+                    UpdatePacketWrapper upw = new UpdatePacketWrapper();
+                    FriendlyByteBuf buf = upw.GetBuf();
+                    buf.writeInt(this.maxIO);
+                    buf.writeUtf(editBox2.getValue());
                     buf.writeBoolean(this.isPlayerMode);
                     buf.writeBoolean(this.isOut);
                     buf.writeBlockPos(this.pos);
@@ -175,6 +180,8 @@ public class ConfigScreen extends Screen
         // 渲染字体类型，内容，位置，颜色，
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.maxio"),this.width / 2-100, 50, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.bindplayer"),this.width / 2-100, 70, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isplayermode"),this.width / 2-100, 90, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30, 0xeb0505);
         // 渲染编辑框
         this.editBox.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -182,6 +189,7 @@ public class ConfigScreen extends Screen
         this.button.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button3.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.button4.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.editBox2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染滑条
         //this.sliderBar.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);

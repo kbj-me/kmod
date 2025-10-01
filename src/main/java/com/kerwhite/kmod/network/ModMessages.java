@@ -26,7 +26,8 @@ public class ModMessages {
 
         INSTANCE = net;
         net.messageBuilder(KUpdatePacket.class,id(), NetworkDirection.PLAY_TO_SERVER).decoder(KUpdatePacket::new).encoder(KUpdatePacket::toBytes).consumerMainThread(KUpdatePacket::handle).add();
-
+        net.messageBuilder(KRequestPack.class,id(), NetworkDirection.PLAY_TO_SERVER).decoder(KRequestPack::new).encoder(KRequestPack::toBytes).consumerMainThread(KRequestPack::handle).add();
+        net.messageBuilder(KFeedBackPack.class,id(), NetworkDirection.PLAY_TO_CLIENT).decoder(KFeedBackPack::new).encoder(KFeedBackPack::toBytes).consumerMainThread(KFeedBackPack::handle).add();
     }
 
     public static <MSG> void sendToServer(MSG message)
@@ -36,7 +37,12 @@ public class ModMessages {
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player)
     {
-        INSTANCE.send(PacketDistributor.PLAYER.with(()->player),message);
+        INSTANCE.sendTo(message,player.connection.connection,NetworkDirection.PLAY_TO_CLIENT);
+        //INSTANCE.send(PacketDistributor.PLAYER.with(()->player),message);
         //INSTANCE.send(PacketDistributor.ALL);
+    }
+    public static <MSG> void sendToAll(MSG message)
+    {
+        INSTANCE.send(PacketDistributor.ALL.noArg(),message);
     }
 }

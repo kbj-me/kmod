@@ -126,7 +126,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
         @Override
         public int getMaxEnergyStored()
         {
-            return 99999;
+            return 2147483647;
         }
         @Override
         public boolean canExtract()
@@ -178,21 +178,19 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     private LazyOptional<IEnergyStorage> OUT_lazyOptional=LazyOptional.of(()->new IEnergyStorage()
     {
         @Override
-        public int receiveEnergy(int maxReceive, boolean simulate)
-        {
-          //  if (!simulate)
-            //{
-              //  BlockEntityEnergyTransporter.this.energy += maxReceive;
-              //  if (maxReceive != 0)
-               // {
-                //    BlockEntityEnergyTransporter.this.setChanged();
-               // }
-            //}
-            return maxReceive;
-        }
+        public int receiveEnergy(int maxReceive, boolean simulate){return 0;}
         @Override
         public int extractEnergy(int maxExtract, boolean simulate)
         {
+            if(!simulate)
+            {
+                if(BlockEntityEnergyTransporter.this.energy-maxExtract>=0)
+                {
+                    BlockEntityEnergyTransporter.this.energy -=maxExtract;
+                    BlockEntityEnergyTransporter.this.setChanged();
+                    return maxExtract;
+                }
+            }
             return 0;
         }
         @Override
@@ -267,8 +265,14 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side)
     {
         //boolean isEnergy =  && side.getAxis().isHorizontal();
-
-        return Objects.equals(cap, ForgeCapabilities.ENERGY) ? this.IN_lazyOptional.cast() : super.getCapability(cap, side);
+        if(this.isOut)
+        {
+            return Objects.equals(cap, ForgeCapabilities.ENERGY) ? this.OUT_lazyOptional.cast() : super.getCapability(cap, side);
+        }
+        else
+        {
+            return Objects.equals(cap, ForgeCapabilities.ENERGY) ? this.IN_lazyOptional.cast() : super.getCapability(cap, side);
+        }
     }
     public BlockEntityEnergyTransporter(BlockEntityType<?>type, BlockPos pos, BlockState state)
     {
@@ -317,6 +321,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
                         KWSD.addPublic(-BlockEntity.maxIO);
                     }
                 }
+                BlockEntity.transferEnergy(Level);
             }
         }
         if (!Level.isClientSide)

@@ -1,6 +1,5 @@
 package com.kerwhite.kmod.jadeextra;
 
-
 import com.kerwhite.kmod.block.BlockEnergyTransporter;
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import net.minecraft.resources.ResourceLocation;
@@ -25,5 +24,4 @@ public class JadeKmod implements IWailaPlugin
     {
         registration.registerBlockComponent(ComponentProvider.INSTANCE,BlockEnergyTransporter.class);
     }
-
 }

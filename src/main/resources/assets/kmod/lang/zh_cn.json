@@ -37,5 +37,9 @@
   "config.jade.plugin_kmod.kwailaplugin": "无线能量传输器显示",
   "kmod.bindplayer": "绑定的玩家:",
   "kmod.isplayermode": "玩家模式:",
-  "kmod.maxio": "最大输入输出:"
+  "kmod.maxio": "最大输入输出:",
+  "gui.kmod.output1":"输入能量",
+  "gui.kmod.output2":"输出能量",
+  "lang.kmod.gui.isout": "输入/输出模式",
+  "kmod.isout": "是否为输出模式:"
 }

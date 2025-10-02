@@ -34,6 +34,12 @@ public enum ComponentProvider implements IBlockComponentProvider,IServerDataProv
             boolean isplayermode = accessor.getServerData().getBoolean("IsPlayerMode");
             tooltip.append(Component.translatable("kmod.isplayermode").append(isplayermode?Component.literal("True"):Component.literal("False")));
         }
+        if(accessor.getServerData().contains("IsOut"))
+        {
+            tooltip.add(icon);
+            boolean isplayermode = accessor.getServerData().getBoolean("IsOut");
+            tooltip.append(Component.translatable("kmod.isout").append(isplayermode?Component.literal("True"):Component.literal("False")));
+        }
         if(accessor.getServerData().contains("MaxIO"))
         {
             tooltip.add(icon);
@@ -51,7 +57,8 @@ public enum ComponentProvider implements IBlockComponentProvider,IServerDataProv
         BlockEntityEnergyTransporter beet = ((BlockEntityEnergyTransporter)accessor.getBlockEntity());
         data.putString("BindPlayer",beet.bindPlayer);
         data.putBoolean("IsPlayerMode",beet.isPlayerMode);
-        data.putInt("MaxIO",beet.maxIO);//data.putString("BindPlayer",beet.bindPlayer);
+        data.putInt("MaxIO",beet.maxIO);
+        data.putBoolean("IsOut",beet.isOut);
 
     }
     @Override

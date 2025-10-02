@@ -39,6 +39,7 @@ public class ConfigScreen extends Screen
     private Button button3;
     private Button button4;
     public Button button5;
+    public Button button6;
     public int maxIO=0;
     public String bindPlayer="";
     public boolean isPlayerMode=false;
@@ -80,10 +81,12 @@ public class ConfigScreen extends Screen
         if(res)
         {
             this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.input1") : Component.translatable("gui.kmod.input2"));
+            this.button6.setMessage(!this.isOut ? Component.translatable("gui.kmod.output1") : Component.translatable("gui.kmod.output2"));
         }
         else
         {
             this.button5.setMessage(!this.isPlayerMode ? Component.translatable("gui.kmod.err") : Component.translatable("gui.kmod.input2"));
+            this.button5.setMessage(!this.isOut ? Component.translatable("gui.kmod.err") : Component.translatable("gui.kmod.input2"));
         }
         ModMessages.sendToServer(new KRequestPack());
     }
@@ -128,12 +131,14 @@ public class ConfigScreen extends Screen
         this.button2 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioget"), pButton -> {HandleButton(2);}).pos(this.width / 2 + 20, 50).size(40, 15).build();
         this.button3 = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".maxioset"), pButton -> {HandleButton(3);}).pos(this.width / 2 + 60, 50).size(40, 15).build();
         this.button5 = new Button.Builder(Component.translatable("gui.kmod.err"), pButton -> {HandleButton(5);}).pos(this.width / 2 + 20, 90).size(80, 15).build();
+        this.button6 = new Button.Builder(Component.translatable("gui.kmod.err"), pButton -> {HandleButton(6);}).pos(this.width / 2 + 20, 110).size(80, 15).build();
         this.button5.setTooltip(Tooltip.create(Component.translatable("gui.kmod.select")));
         this.button4.setTooltip(Tooltip.create(Component.translatable("gui.kmod.bindplayer")));
         this.button5.setTooltip(Tooltip.create(Component.translatable("gui.kmod.maxio")));
         if(res)
         {
             this.button5.setMessage(!this.isPlayerMode?Component.translatable("gui.kmod.input1"):Component.translatable("gui.kmod.input2"));
+            this.button5.setMessage(!this.isOut?Component.translatable("gui.kmod.output1"):Component.translatable("gui.kmod.output2"));
         }
         else
         {
@@ -147,6 +152,7 @@ public class ConfigScreen extends Screen
         this.addWidget(this.button3);
         this.addWidget(this.button4);
         this.addWidget(this.button5);
+        this.addWidget(this.button6);
         // 滑条，位置x，y，宽高w，h，滑条名称前缀，后缀，滑条的最小值，最大值，初始值，是否渲染文字
        // this.sliderBar = new ExtendedSlider(this.width / 2 - 100, 120, 200, 10, Component.translatable("gui." + ExampleMod.MODID + ".first_gui.slider"), Component.empty(), 0, 100, 0, true);
        // this.addWidget(this.sliderBar);
@@ -231,6 +237,30 @@ public class ConfigScreen extends Screen
                     this.Getint(level, pos);
                 }
                 break;
+            case 6:
+                if (this.Getint(level, pos))
+                {
+                    upw = new UpdatePacketWrapper();
+                    buf = upw.GetBuf();
+                    buf.writeInt(this.maxIO);
+                    buf.writeUtf(this.bindPlayer);
+                    buf.writeBoolean(this.isPlayerMode);
+                    if(button6.getMessage().getString().equals(Component.translatable("gui.kmod.output1").getString()))
+                    {
+                        System.out.println("public");
+                        buf.writeBoolean(true);
+                    }
+                    else
+                    {
+                        System.out.println("private");
+                        buf.writeBoolean(false);
+                    }
+                    buf.writeBlockPos(this.pos);
+                    upw.CreatePacket();
+                    upw.SendPacketToServer();
+                    this.Getint(level, pos);
+                }
+                break;
         }
     }
     @Override
@@ -263,6 +293,7 @@ public class ConfigScreen extends Screen
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.maxio"),this.width / 2-100, 50, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.bindplayer"),this.width / 2-100, 70, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isplayermode"),this.width / 2-100, 90, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isout"),this.width / 2-100, 110, 0x000000);
         pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30, 0xeb0505);
         pGuiGraphics.drawCenteredString(this.font, this.publicenergy, this.width / 2, 170, 0xeb0505);
         pGuiGraphics.drawCenteredString(this.font, this.privateenergy, this.width / 2, 180, 0xeb0505);
@@ -274,6 +305,7 @@ public class ConfigScreen extends Screen
         this.button3.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button4.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button5.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+        this.button6.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.editBox2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 渲染滑条
         //this.sliderBar.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);

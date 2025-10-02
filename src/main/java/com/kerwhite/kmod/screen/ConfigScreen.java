@@ -111,11 +111,12 @@ public class ConfigScreen extends Screen
         this.editBox = new EditBox(this.font, this.width / 2 - 60, 50, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui"));
         this.editBox.setFilter(input->input.isEmpty()||input.matches("\\d+"));
         this.editBox2 = new EditBox(this.font, this.width / 2 - 60, 70, 70, 15, Component.translatable("gui." + kmod.MODID + ".first_gui2"));
-        this.editBox.setValue(String.valueOf(this.maxIO));
-        this.editBox2.setValue(String.valueOf(this.bindPlayer));
+
         //this.editBox.canConsumeInput();
 
         res = this.Getint(level,pos);
+        this.editBox.setValue(String.valueOf(this.maxIO));
+        this.editBox2.setValue(String.valueOf(this.bindPlayer));
         this.addWidget(this.editBox2);
         this.addWidget(this.editBox);
         this.setInitialFocus(this.editBox);

@@ -203,7 +203,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
         @Override
         public int getMaxEnergyStored()
         {
-            return 99999;
+            return 2147483647;
         }
         @Override
         public boolean canExtract()
@@ -266,9 +266,9 @@ public class BlockEntityEnergyTransporter extends BlockEntity
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side)
     {
-        boolean isEnergy = Objects.equals(cap, ForgeCapabilities.ENERGY) && side.getAxis().isHorizontal();
+        //boolean isEnergy =  && side.getAxis().isHorizontal();
 
-        return isEnergy ? this.IN_lazyOptional.cast() : super.getCapability(cap, side);
+        return Objects.equals(cap, ForgeCapabilities.ENERGY) ? this.IN_lazyOptional.cast() : super.getCapability(cap, side);
     }
     public BlockEntityEnergyTransporter(BlockEntityType<?>type, BlockPos pos, BlockState state)
     {

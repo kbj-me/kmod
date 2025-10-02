@@ -16,5 +16,9 @@
   "lang.kmod.energyviewer.tooltip.def":"Please Right Click the ground to change the mode",
   "creativetab.kcreativemodetab":"Kmod",
   "item.kmod.energy_viewer_gui":"Advanced Kmod Configer(GUI)",
-  "lang.kmod.use.gui": "Right click on the Wireless Energy transporter to open GUI"
+  "lang.kmod.use.gui": "Right click on the Wireless Energy transporter to open GUI",
+  "config.jade.plugin_kmod.kwailaplugin": "WireLess Energy Transporter Energy Info",
+  "kmod.bindplayer": "Binded Player:",
+  "kmod.isplayermode": "PlayerMode:",
+  "kmod.maxio": "Max Input/Output:"
 }

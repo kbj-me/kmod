@@ -33,5 +33,9 @@
   "gui.kmod.select": "右键改变玩家模式(能量传输源为公共能量或私有能量)",
   "gui.kmod.maxio": "设置最大单次(每tick)输入/输出FE",
   "gui.kmod.bindplayer":"设置绑定的玩家名字(如果玩家模式为传输私有能量的话)",
-  "gui.kmod.err":"错误"
+  "gui.kmod.err":"错误",
+  "config.jade.plugin_kmod.kwailaplugin": "无线能量传输器显示",
+  "kmod.bindplayer": "绑定的玩家:",
+  "kmod.isplayermode": "玩家模式:",
+  "kmod.maxio": "最大输入输出:"
 }

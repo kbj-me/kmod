@@ -7,6 +7,7 @@ import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -24,9 +25,6 @@ public class PlayerLoggedInEventHandler
         DimensionDataStorage DDS = sl.getDataStorage();
         KWorldSavedData KWSD = DDS.computeIfAbsent(KWorldSavedData::load,KWorldSavedData::new,"KWSD");
         KWSD.add(event.getEntity().getName().toString());
-        KWSD.addE(event.getEntity().getName().toString(),5);
-        event.getEntity().sendSystemMessage(Component.literal(Integer.toString(KWSD.getE(event.getEntity().getName().toString()))));
-        event.getEntity().sendSystemMessage(Component.literal(event.getEntity().getName().toString()));
         KWSD.setDirty();
     }
 

@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -44,11 +45,11 @@ public class BlockEnergyTransporter extends BaseEntityBlock
     {
         if(context.getNearestLookingDirection().getOpposite()!= Direction.DOWN && context.getNearestLookingDirection().getOpposite()!= Direction.UP )
         {
-            return this.defaultBlockState().setValue(BlockStateProperties.FACING,context.getNearestLookingDirection().getOpposite());
+            return this.defaultBlockState().setValue(BlockStateProperties.FACING,context.getNearestLookingDirection().getOpposite()).setValue(BlockStateProperties.POWERED,Boolean.FALSE);
         }
         else
         {
-            return this.defaultBlockState().setValue(BlockStateProperties.FACING,Direction.WEST);
+            return this.defaultBlockState().setValue(BlockStateProperties.FACING,Direction.WEST).setValue(BlockStateProperties.POWERED,Boolean.FALSE);
         }
     }
     @Override
@@ -57,6 +58,7 @@ public class BlockEnergyTransporter extends BaseEntityBlock
         super.createBlockStateDefinition(builder);
 
         builder.add(BlockStateProperties.FACING);
+        builder.add(BlockStateProperties.POWERED);
     }
     @Override
     public @NotNull RenderShape getRenderShape(@NotNull BlockState p_49232_)

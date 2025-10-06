@@ -1,7 +1,10 @@
 package com.kerwhite.kmod.item;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
+import com.kerwhite.kmod.regiter.ItemRegister;
+import com.kerwhite.kmod.regiter.register;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -46,6 +49,10 @@ public class EnergyViewer extends Item
         Player player = useOnContext.getPlayer();
         BlockPos pos = useOnContext.getClickedPos();
         ItemStack itemStack = useOnContext.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);
+        if(level.isClientSide())
+        {
+            Minecraft.getInstance().gameRenderer.displayItemActivation(new ItemStack(register.ENERGYVIEWERITEM.get()));
+        }
         if (!level.isClientSide())
         {
             mode=useOnContext.getItemInHand().getTag().getInt("Mode");

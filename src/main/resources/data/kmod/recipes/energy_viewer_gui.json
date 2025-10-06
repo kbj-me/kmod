@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "@#@",
+    "#$#",
+    "@#@"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_block"
+    },
+    "$": {
+      "item": "kmod:energy_viewer"
+    },
+    "@": {
+      "item": "minecraft:paper"
+    }
+  },
+  "ingredients": [
+    {
+      "item": ""
+    }
+  ],
+  "result": {
+    "item": "kmod:energy_viewer_gui",
+    "count": 1
+  },
+  "show_notification": true
+}

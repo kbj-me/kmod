@@ -15,8 +15,8 @@ public class ModMessages {
     {
         return packetId++;
     }
-
-    public static void register(){
+    public static void register()
+    {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
                 .named(new ResourceLocation(kmod.MODID,"messages"))
                 .networkProtocolVersion(()->"1.0")
@@ -28,6 +28,7 @@ public class ModMessages {
         net.messageBuilder(KUpdatePacket.class,id(), NetworkDirection.PLAY_TO_SERVER).decoder(KUpdatePacket::new).encoder(KUpdatePacket::toBytes).consumerMainThread(KUpdatePacket::handle).add();
         net.messageBuilder(KRequestPack.class,id(), NetworkDirection.PLAY_TO_SERVER).decoder(KRequestPack::new).encoder(KRequestPack::toBytes).consumerMainThread(KRequestPack::handle).add();
         net.messageBuilder(KFeedBackPack.class,id(), NetworkDirection.PLAY_TO_CLIENT).decoder(KFeedBackPack::new).encoder(KFeedBackPack::toBytes).consumerMainThread(KFeedBackPack::handle).add();
+        net.messageBuilder(KSpeedUpdatePack.class,id(), NetworkDirection.PLAY_TO_SERVER).decoder(KSpeedUpdatePack::new).encoder(KSpeedUpdatePack::toBytes).consumerMainThread(KSpeedUpdatePack::handle).add();
         //net.messageBuilder(KUpdateFeedBack.class,id(), NetworkDirection.PLAY_TO_CLIENT).decoder(KUpdateFeedBack::new).encoder(KUpdateFeedBack::toBytes).consumerMainThread(KUpdateFeedBack::handle).add();
     }
 

@@ -53,7 +53,7 @@ public class BlockEnergyTransporter extends BaseEntityBlock
         }
     }
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder <Block,BlockState> builder)
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder <Block,BlockState> builder)
     {
         super.createBlockStateDefinition(builder);
 
@@ -82,6 +82,15 @@ public class BlockEnergyTransporter extends BaseEntityBlock
     {
         return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ENERGYTRANSPORTER.get(), BlockEntityEnergyTransporter::tick);
     }
+    //实体站在方块上
+    @Override
+    public void stepOn(Level pLevel, BlockPos pPos, BlockState pState, Entity pEntity)
+    {
+        super.stepOn(pLevel, pPos, pState, pEntity);
+    }
+
+
+
    // @Override
    // public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
       //  if (!level.isClientSide) {
@@ -107,7 +116,7 @@ public class BlockEnergyTransporter extends BaseEntityBlock
    // }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public @NotNull InteractionResult use(@NotNull BlockState pState, Level pLevel, @NotNull BlockPos pPos, @NotNull Player pPlayer, @NotNull InteractionHand pHand, @NotNull BlockHitResult pHit) {
         if (!pLevel.isClientSide())
         {
             //打开menu
@@ -116,6 +125,7 @@ public class BlockEnergyTransporter extends BaseEntityBlock
             // 我们调用getmenprovider这方法返回对应的blockentity，这个方法很简单，自己点开查看下吧。
            //pPlayer.openMenu(this.getMenuProvider(pState,pLevel,pPos));
            //pPlayer.sendSystemMessage(Component.literal("www"));
+            //滚吧
         }
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }

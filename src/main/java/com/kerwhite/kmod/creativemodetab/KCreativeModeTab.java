@@ -27,6 +27,11 @@ public class KCreativeModeTab {
                         pOutput.accept(register.ENERGY_TRANSPORTER_ITEM.get()); //用get方法获取对应的参数传进去
                         pOutput.accept(register.ENERGYVIEWERITEM.get());
                         pOutput.accept(ItemRegister.ENERGYVIEWERITEM.get());
+                        pOutput.accept(ItemRegister.WOODEN_SPEAR.get());
+                        pOutput.accept(ItemRegister.STONE_SPEAR.get());
+                        pOutput.accept(ItemRegister.IRON_SPEAR.get());
+                        pOutput.accept(ItemRegister.GOLDEN_SPEAR.get());
+                        pOutput.accept(ItemRegister.DIAMOND_SPEAR.get());
                     })
                     .build());//构建完成
     //对外接口方法，让主类注册用

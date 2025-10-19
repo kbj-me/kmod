@@ -1,11 +1,10 @@
 package com.kerwhite.kmod.screen;
 
-import com.kerwhite.kmod.corelib.render.GuiRenderHelper;
+import com.kerwhite.kmod.gui.widget.DirectionLinkedButton;
 import com.kerwhite.kmod.gui.widget.FloatingPanel;
 import com.kerwhite.kmod.gui.widget.LinkedButton;
 import com.kerwhite.kmod.gui.widget.PanelLinkHelper;
 import com.kerwhite.kmod.kmod;
-import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -15,20 +14,10 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.SkinManager;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
-
-import java.util.List;
 
 public class TestScreen extends Screen
 {
@@ -64,7 +53,7 @@ public class TestScreen extends Screen
         floatingPanel.clearSubWidget();
         floatingPanel.addSubWidget(this.button);
         //this.linkedButton = new LinkedButton(new  Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerget"), pButton -> {System.out.println("www");}).pos(this.floatingPanel.getWidth() / 2 + 20, 70).size(40, 15),this.floatingPanel);
-        this.linkedButton = new LinkedButton(this.floatingPanel.getWidth() / 2 + 20, 70,16, 16,Component.literal("testlink"),null);
+        this.linkedButton = new DirectionLinkedButton(this.floatingPanel.getWidth() / 2 + 20, 70,16, 16,Component.literal("testlink"),null);
         PanelLinkHelper.link(this.floatingPanel,this.linkedButton,false);
         this.addWidget(linkedButton);
         super.init();

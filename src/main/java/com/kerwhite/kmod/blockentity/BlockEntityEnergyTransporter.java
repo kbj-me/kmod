@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -31,12 +32,41 @@ import static com.kerwhite.kmod.register.register.ENERGYTRANSPORTER;
 @SuppressWarnings("All")
 public class BlockEntityEnergyTransporter extends BlockEntity
 {
-    //ItemStackHandler
+    //=============BLOCK NBT(S) START =============
     public int energy=0;
     public int maxIO=50;
     public String bindPlayer="literal{MCLR_747}";
     public boolean isPlayerMode=false;
     public boolean isOut=false;
+    //=============BLOCK NBT(S) END =============
+    //=============BLOCK RELATIVE(S) START =============
+    public Direction[] directions={Direction.UP,Direction.DOWN,Direction.NORTH,Direction.SOUTH,Direction.EAST,Direction.WEST};
+    boolean canOutFlag = false;
+    public @Nullable Item[] getRelativeEnergyAbleBlockEntityWithListOfItems()
+    {
+        int cnt = 0;
+        Item[] result = new Item[6];
+        for(Direction dir : directions)
+        {
+            result[cnt]=null;
+            BlockEntity blockEntity = this.level.getBlockEntity(this.getBlockPos().relative(dir));
+            if(blockEntity != null)
+            {
+                canOutFlag=false;
+                blockEntity.getCapability(ForgeCapabilities.ENERGY,dir.getOpposite()).ifPresent(e->
+                {
+                    if(e.canReceive()){this.canOutFlag = true;}
+                });
+                if(canOutFlag)
+                {
+                    result[cnt]=blockEntity.getBlockState().getBlock().asItem();
+                }
+            }
+            cnt++;
+        }
+        return result;
+    }
+    //=============BLOCK RELATIVE(S) END =============
     @Nullable
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket()
@@ -44,6 +74,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
         super.getUpdatePacket();
         return ClientboundBlockEntityDataPacket.create(this);
     }
+
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
     {

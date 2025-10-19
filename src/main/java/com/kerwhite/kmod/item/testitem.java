@@ -1,5 +1,6 @@
 package com.kerwhite.kmod.item;
 
+import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import com.kerwhite.kmod.network.KUpdatePacket;
 import com.kerwhite.kmod.network.KUpdatePacketWrapper;
 import com.kerwhite.kmod.network.ModMessages;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class testitem extends Item {
@@ -23,9 +25,22 @@ public class testitem extends Item {
     @Override
     public @NotNull InteractionResult useOn(UseOnContext useOnContext)
     {
-        BlockPos pos = useOnContext.getClickedPos();
-        KUpdatePacket UPDATE = new KUpdatePacketWrapper().writeInt(1).writeUtf("2").writeBoolean(false).writeBoolean(true).writeBlockPos(pos).build();
-        ModMessages.sendToServer(UPDATE);
+        if(useOnContext.getLevel().isClientSide)
+        {
+            BlockPos pos = useOnContext.getClickedPos();
+            BlockEntity blockEntity = useOnContext.getLevel().getBlockEntity(pos);
+            if(blockEntity instanceof BlockEntityEnergyTransporter beet)
+            {
+                Item[] items = beet.getRelativeEnergyAbleBlockEntityWithListOfItems();
+                for(Item item : items)
+                {
+                    if(item != null)
+                    {
+                        System.out.println(item.getName(item.getDefaultInstance()).getString());
+                    }
+                }
+            }
+        }
         return InteractionResult.SUCCESS;
     }
     @Override

@@ -27,27 +27,32 @@ public class testitem extends Item {
     {
         if(useOnContext.getLevel().isClientSide)
         {
-            BlockPos pos = useOnContext.getClickedPos();
-            BlockEntity blockEntity = useOnContext.getLevel().getBlockEntity(pos);
-            if(blockEntity instanceof BlockEntityEnergyTransporter beet)
-            {
-                Item[] items = beet.getRelativeEnergyAbleBlockEntityWithListOfItems();
-                for(Item item : items)
-                {
-                    if(item != null)
-                    {
-                        System.out.println(item.getName(item.getDefaultInstance()).getString());
-                    }
-                }
-            }
+            GuiOpenWrapper.openTestScreen(useOnContext.getClickedPos());
         }
+
+//        if(useOnContext.getLevel().isClientSide)
+//        {
+//            BlockPos pos = useOnContext.getClickedPos();
+//            BlockEntity blockEntity = useOnContext.getLevel().getBlockEntity(pos);
+//            if(blockEntity instanceof BlockEntityEnergyTransporter beet)
+//            {
+//                Item[] items = beet.getRelativeEnergyAbleBlockEntityWithListOfItems();
+//                for(Item item : items)
+//                {
+//                    if(item != null)
+//                    {
+//                        System.out.println(item.getName(item.getDefaultInstance()).getString());
+//                    }
+//                }
+//            }
+//        }
         return InteractionResult.SUCCESS;
     }
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, @NotNull Player player, @NotNull InteractionHand pUsedHand) {
         if(pLevel.isClientSide)
         {
-            GuiOpenWrapper.openTestScreen();
+
         // GuiOpenWrapper.openFirstGui(pPlayer);
         // ModMessages.sendToServer(new KUpdatePacket());
         }

@@ -1,9 +1,6 @@
 package com.kerwhite.kmod.screen;
 
-import com.kerwhite.kmod.gui.widget.DirectionLinkedButton;
-import com.kerwhite.kmod.gui.widget.FloatingPanel;
-import com.kerwhite.kmod.gui.widget.LinkedButton;
-import com.kerwhite.kmod.gui.widget.PanelLinkHelper;
+import com.kerwhite.kmod.gui.widget.*;
 import com.kerwhite.kmod.kmod;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,6 +11,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
@@ -22,36 +20,38 @@ import org.joml.Matrix4f;
 public class TestScreen extends Screen
 {
     FloatingPanel floatingPanel;
-    Button button;
+    TriColorButton north;
     LinkedButton linkedButton;
-    protected TestScreen(Component p_96550_)
+    BlockPos pos;
+    protected TestScreen(Component p_96550_, BlockPos pos)
     {
         super(p_96550_);
+        this.pos = pos;
     }
     @Override
     public boolean isPauseScreen()
     {
         return false;
     }
-    public void renderBlock(GuiGraphics guiGraphics)
-    {
-        PoseStack poseStack =  guiGraphics.pose();
-        MultiBufferSource.BufferSource bufferSource = guiGraphics.bufferSource();
-        poseStack.pushPose();
-        poseStack.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
-        Lighting.setupForFlatItems();
-        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.ACACIA_BUTTON.defaultBlockState(),poseStack,bufferSource,255, OverlayTexture.NO_OVERLAY);
-        Lighting.setupFor3DItems();
-        poseStack.popPose();
-    }
+//    public void renderBlock(GuiGraphics guiGraphics)
+//    {
+//        PoseStack poseStack =  guiGraphics.pose();
+//        MultiBufferSource.BufferSource bufferSource = guiGraphics.bufferSource();
+//        poseStack.pushPose();
+//        poseStack.mulPoseMatrix(new Matrix4f().scaling(1, -1, 1));
+//        Lighting.setupForFlatItems();
+//        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(Blocks.ACACIA_BUTTON.defaultBlockState(),poseStack,bufferSource,255, OverlayTexture.NO_OVERLAY);
+//        Lighting.setupFor3DItems();
+//        poseStack.popPose();
+//    }
     @Override
     protected void init()
     {
         floatingPanel=new FloatingPanel(0,0,100,100,Component.literal("111"));
-        this.button = new Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerget"), pButton -> {System.out.println("www");}).pos(this.floatingPanel.getWidth() / 2 + 20, 70).size(40, 15).build();
+        this.north = new TriColorButton(this.floatingPanel.getX(),this.floatingPanel.getY()+17);
         this.addWidget(floatingPanel);
         floatingPanel.clearSubWidget();
-        floatingPanel.addSubWidget(this.button);
+        floatingPanel.addSubWidget(this.north);
         //this.linkedButton = new LinkedButton(new  Button.Builder(Component.translatable("gui." + kmod.MODID + ".bindplayerget"), pButton -> {System.out.println("www");}).pos(this.floatingPanel.getWidth() / 2 + 20, 70).size(40, 15),this.floatingPanel);
         this.linkedButton = new DirectionLinkedButton(this.floatingPanel.getWidth() / 2 + 20, 70,16, 16,Component.literal("testlink"),null);
         PanelLinkHelper.link(this.floatingPanel,this.linkedButton,false);

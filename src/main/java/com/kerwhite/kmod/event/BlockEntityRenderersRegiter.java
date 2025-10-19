@@ -2,7 +2,7 @@ package com.kerwhite.kmod.event;
 
 import com.kerwhite.kmod.blockentityrender.EnergyTransporterRender;
 import com.kerwhite.kmod.kmod;
-import com.kerwhite.kmod.regiter.register;
+import com.kerwhite.kmod.register.register;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

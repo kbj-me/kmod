@@ -15,4 +15,8 @@ public class GuiOpenWrapper
     {
         Minecraft.getInstance().setScreen(new ConfigScreen(Component.translatable("test"),player,level,pos));
     }
+    public static void openTestScreen()
+    {
+        Minecraft.getInstance().setScreen(new TestScreen(Component.literal("test")));
+    }
 }

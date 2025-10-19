@@ -4,7 +4,7 @@ import com.kerwhite.kmod.item.SpearItem;
 import com.kerwhite.kmod.kmod;
 import com.kerwhite.kmod.network.KSpeedUpdatePack;
 import com.kerwhite.kmod.network.ModMessages;
-import com.kerwhite.kmod.regiter.EnchantmentsRegister;
+import com.kerwhite.kmod.register.EnchantmentsRegister;
 import com.kerwhite.kmod.utils.PlayerSpeed;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
@@ -12,7 +12,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -20,13 +19,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.joml.Vector3d;
 
 import java.util.List;
 import java.util.Random;
@@ -72,7 +71,6 @@ public class LivingTickEvent
                             Random random = new Random(p.level().getGameTime());
                             int next = Math.abs(random.nextInt()%10);
                             System.out.println(next);
-
                             if(next <= 3)
                             {
                                 ((ServerLevel)p.level()).sendParticles(ParticleTypes.CRIT,entity.getX(),entity.getY()+0.5,entity.getZ(),100,1,1,1,0);
@@ -82,11 +80,25 @@ public class LivingTickEvent
                                 damage*=1.5;
                             }
                             if(p.getVehicle()!=null){damage*=1.5;}
-                            p.sendSystemMessage(Component.literal(String.valueOf(damage)));
+
                             if(p.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(Enchantments.FIRE_ASPECT)>0)
                             {
                                 entity.setSecondsOnFire(5);
                             }
+                            double level2 = 0;
+                            if(entity instanceof Player)
+                            {
+                                for(ItemStack IS : ((Player)entity).getArmorSlots())
+                                {
+                                    level2+=IS.getEnchantmentLevel(EnchantmentsRegister.SPEAR_PROTECTION.get());
+                                }
+                                if(level2 != 0)
+                                {
+                                    damage /= level2;
+                                }
+                                System.out.println(level2);
+                            }
+                            p.sendSystemMessage(Component.literal(String.valueOf(damage)));
                             entity.hurt(entity.damageSources().playerAttack(p),damage);
                             ((ServerLevel)p.level()).playSound(null,new BlockPos((int)p.getX(),(int)p.getY(),(int)p.getZ()),SoundEvents.PLAYER_ATTACK_STRONG, SoundSource.PLAYERS);
                         }

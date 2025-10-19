@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
+@SuppressWarnings("All")
 public class SpecialBakedModel implements BakedModel
 {
 

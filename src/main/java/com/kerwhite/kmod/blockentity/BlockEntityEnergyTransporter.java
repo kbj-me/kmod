@@ -1,48 +1,34 @@
 package com.kerwhite.kmod.blockentity;
 
 import com.google.common.collect.Queues;
-import com.kerwhite.kmod.kmod;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
-import net.minecraft.client.Minecraft;
-import net.minecraft.commands.arguments.ParticleArgument;
 import net.minecraft.core.BlockPos;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Objects;
 import java.util.Queue;
 
-import static com.kerwhite.kmod.regiter.register.ENERGYTRANSPORTER;
-
+import static com.kerwhite.kmod.register.register.ENERGYTRANSPORTER;
+@SuppressWarnings("All")
 public class BlockEntityEnergyTransporter extends BlockEntity
 {
     //ItemStackHandler
@@ -298,6 +284,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
                     if(BlockEntity.isPlayerMode==true)
                     {
                         KWSD.addE(BlockEntity.bindPlayer, BlockEntity.maxIO);
+                        //ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers().get(1).getName().getString()
                     }
                     else if(BlockEntity.isPlayerMode==false)
                     {
@@ -326,6 +313,7 @@ public class BlockEntityEnergyTransporter extends BlockEntity
                 BlockEntity.transferEnergy(Level);
             }
         }
+        assert Level != null;
         if (!Level.isClientSide)
         {
             ServerLevel serverLevel=((ServerLevel)Level);

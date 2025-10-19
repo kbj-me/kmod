@@ -1,19 +1,12 @@
 package com.kerwhite.kmod.event;
 
-import com.kerwhite.kmod.blockentityrender.EnergyTransporterRender;
 import com.kerwhite.kmod.kmod;
-import com.kerwhite.kmod.regiter.register;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.storage.DimensionDataStorage;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = kmod.MODID)
 public class PlayerLoggedInEventHandler

@@ -41,5 +41,11 @@
   "gui.kmod.output1":"输入能量",
   "gui.kmod.output2":"输出能量",
   "lang.kmod.gui.isout": "输入/输出模式",
-  "kmod.isout": "是否为输出模式:"
+  "kmod.isout": "是否为输出模式:",
+
+
+
+  "enchantment.kmod.expand": "扩展",
+  "enchantment.kmod.spear_protection": "长矛保护",
+  "enchantment.kmod.quickcool": "速却"
 }

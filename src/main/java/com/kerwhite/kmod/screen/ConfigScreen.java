@@ -44,14 +44,13 @@ public class ConfigScreen extends Screen
     public String bindPlayer="";
     public boolean isPlayerMode=false;
     public boolean isOut=false;
-    Random random = new Random(System.currentTimeMillis());
-    int nextint = random.nextInt();
     ResourceLocation FIRST_GUI_TEXTURE = new ResourceLocation(kmod.MODID, "textures/gui/configscreen.png");
     ResourceLocation GUI_TEXTURE_1 = new ResourceLocation(kmod.MODID, "textures/gui/cf1.png");
     private Component publicenergy=Component.literal("Error to load public energy.");
     private Component privateenergy=Component.literal("Error to load private energy");
     public Component content = Component.translatable("ui.kmod.rcb");
-
+    int BACKGROUND_START_X;
+    int BACKGROUND_START_Y;
     public void setPrivateenergy(Component privateenergy)
     {
         this.privateenergy = privateenergy;
@@ -173,9 +172,11 @@ public class ConfigScreen extends Screen
         }
         return false;
     }
+
     public void HandleButton(int id)
     {
-        switch (id) {
+        switch (id)
+        {
             case 1:
                 this.Getint(level, pos);
                 this.editBox2.setValue(String.valueOf(this.bindPlayer));
@@ -266,40 +267,36 @@ public class ConfigScreen extends Screen
     @Override
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick)
     {
+
         // 暂时搞明白是干嘛的
         this.renderBackground(pGuiGraphics);
         //this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         // 设置渲染时候的色彩和透明度是正常的。
+        BACKGROUND_START_X = this.width/2 - 150;
+        BACKGROUND_START_Y = this.height/2 - 100;
 
-        // 背景图的宽高
         int textureWidth = 300;
         int textureHeight = 200;
-        // 渲染背景图
+
+        this.button.setPosition(button.getX(),70+BACKGROUND_START_Y);
+        this.button4.setPosition(button4.getX(),70+BACKGROUND_START_Y);
         pGuiGraphics.setColor(1, 1, 1, 1);
-       // if(nextint%20 == 0)
-      //  {
-           // pGuiGraphics.blit(GUI_TEXTURE_1, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
-       // }
-        //else if(nextint%20 == 1)
-       // {
-           // pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
-       // }
-       // else
-       // {
-            pGuiGraphics.blit(FIRST_GUI_TEXTURE, this.width / 2 - 150, 10, 0, 0, 300, 200, textureWidth, textureHeight);
-       // }
-        // 渲染字体类型，内容，位置，颜色，
-        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.maxio"),this.width / 2-100, 50, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.bindplayer"),this.width / 2-100, 70, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isplayermode"),this.width / 2-100, 90, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isout"),this.width / 2-100, 110, 0x000000);
-        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30, 0xeb0505);
-        pGuiGraphics.drawCenteredString(this.font, this.publicenergy, this.width / 2, 170, 0xeb0505);
-        pGuiGraphics.drawCenteredString(this.font, this.privateenergy, this.width / 2, 180, 0xeb0505);
-        // 渲染编辑框
+        pGuiGraphics.blit(FIRST_GUI_TEXTURE, BACKGROUND_START_X, BACKGROUND_START_Y, 0, 0, 300, 200, textureWidth, textureHeight);
+        this.button2.setPosition(button2.getX(),50+BACKGROUND_START_Y);
+        this.button3.setPosition(button3.getX(),50+BACKGROUND_START_Y);
+        this.button5.setPosition(button5.getX(),90+BACKGROUND_START_Y);
+        this.button6.setPosition(button6.getX(),110+BACKGROUND_START_Y);
+        this.editBox.setPosition(this.editBox.getX(),50+BACKGROUND_START_Y);
+        this.editBox2.setPosition(this.editBox2.getX(),70+BACKGROUND_START_Y);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.title"),this.width / 2, 15+BACKGROUND_START_Y, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.maxio"),this.width / 2-100, 50+BACKGROUND_START_Y, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.bindplayer"),this.width / 2-100, 70+BACKGROUND_START_Y, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isplayermode"),this.width / 2-100, 90+BACKGROUND_START_Y, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, Component.translatable("lang.kmod.gui.isout"),this.width / 2-100, 110+BACKGROUND_START_Y, 0x000000);
+        pGuiGraphics.drawCenteredString(this.font, content, this.width / 2, 30+BACKGROUND_START_Y, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, this.publicenergy, this.width / 2, 170+BACKGROUND_START_Y, 0xeb0505);
+        pGuiGraphics.drawCenteredString(this.font, this.privateenergy, this.width / 2, 180+BACKGROUND_START_Y, 0xeb0505);
         this.editBox.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        // 渲染 按钮
         this.button.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button3.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -307,9 +304,6 @@ public class ConfigScreen extends Screen
         this.button5.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.button6.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.editBox2.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        // 渲染滑条
-        //this.sliderBar.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        // 别忘记了调用super
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
     @Override

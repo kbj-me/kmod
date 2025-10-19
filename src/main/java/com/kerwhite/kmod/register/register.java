@@ -1,4 +1,4 @@
-package com.kerwhite.kmod.regiter;
+package com.kerwhite.kmod.register;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
 import com.kerwhite.kmod.block.BlockEnergyTransporter;
@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
+@SuppressWarnings("All")
 public class register
 {
     public static final DeferredRegister<Block> KBLOCKS= DeferredRegister.create(ForgeRegistries.BLOCKS, kmod.MODID);

@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import org.checkerframework.checker.units.qual.C;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class KWorldSavedData extends SavedData
         PublicEnergy+=i;
         this.setDirty();
     }
-    public CompoundTag save(CompoundTag compoundTag)
+    public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag)
     {
         CompoundTag tag = compoundTag;
         tag.putInt("PublicEnergy",PublicEnergy);

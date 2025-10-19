@@ -1,10 +1,8 @@
 package com.kerwhite.kmod.datagen;
 
 import com.kerwhite.kmod.kmod;
-import com.kerwhite.kmod.regiter.register;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 

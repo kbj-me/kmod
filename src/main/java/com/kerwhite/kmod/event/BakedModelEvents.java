@@ -1,8 +1,7 @@
 package com.kerwhite.kmod.event;
 
 import com.kerwhite.kmod.bakedmodel.SpecialBakedModel;
-import com.kerwhite.kmod.regiter.ItemRegister;
-import com.kerwhite.kmod.regiter.register;
+import com.kerwhite.kmod.register.ItemRegister;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.registries.BuiltInRegistries;

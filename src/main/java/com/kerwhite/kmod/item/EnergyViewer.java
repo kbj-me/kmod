@@ -1,32 +1,23 @@
 package com.kerwhite.kmod.item;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
-import com.kerwhite.kmod.blockentitywithoutlevelrenderer.KBEWLR;
-import com.kerwhite.kmod.regiter.ItemRegister;
-import com.kerwhite.kmod.regiter.register;
+import com.kerwhite.kmod.register.register;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import org.jetbrains.annotations.NotNull;
 
-import javax.tools.Tool;
-import java.util.Optional;
-import java.util.function.Consumer;
-
+@SuppressWarnings("All")
 public class EnergyViewer extends Item
 {
     int mode = 1;

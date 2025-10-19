@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-
+@SuppressWarnings("All")
 public class EnergyTransporterRender implements BlockEntityRenderer<BlockEntityEnergyTransporter> {
     public EnergyTransporterRender(BlockEntityRendererProvider.Context pContext)
     {

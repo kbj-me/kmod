@@ -14,12 +14,14 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.BlockPos;
+import org.jetbrains.annotations.NotNull;
+
 public class EnergyViewerGUI extends Item {
     public EnergyViewerGUI() {
         super(new Properties().rarity(Rarity.EPIC).stacksTo(1).fireResistant().setNoRepair());
     }
     @Override
-    public InteractionResult useOn(UseOnContext useOnContext)
+    public @NotNull InteractionResult useOn(UseOnContext useOnContext)
     {
         Level level = useOnContext.getLevel();
         Player player = useOnContext.getPlayer();
@@ -44,7 +46,7 @@ public class EnergyViewerGUI extends Item {
        return InteractionResult.SUCCESS;
     }
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         //if(pLevel.isClientSide)
         //{
            // GuiOpenWrapper.openFirstGui(pPlayer);

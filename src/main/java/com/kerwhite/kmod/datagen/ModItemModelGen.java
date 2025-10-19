@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import com.kerwhite.kmod.regiter.register;
+@SuppressWarnings("ALL")
 public class ModItemModelGen extends ItemModelProvider {
     //通用模型，让其他物品继承使用
     public static final String GENERATED="item/handheld";
@@ -42,7 +42,8 @@ public class ModItemModelGen extends ItemModelProvider {
 
     //拼接路径寻找贴图资源
     @SuppressWarnings("all")
-    public ResourceLocation resourceItem(String path){
+    public ResourceLocation resourceItem(String path)
+    {
         return new ResourceLocation(kmod.MODID,"item/"+path);
     }
 }

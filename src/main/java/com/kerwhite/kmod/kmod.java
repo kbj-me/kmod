@@ -1,11 +1,12 @@
 package com.kerwhite.kmod;
 
-import com.kerwhite.kmod.regiter.EnchantmentsRegister;
-import com.kerwhite.kmod.regiter.ItemRegister;
+import com.kerwhite.kmod.creativemodetab.KCreativeModeTabItems;
+import com.kerwhite.kmod.register.EnchantmentsRegister;
+import com.kerwhite.kmod.register.ItemRegister;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import com.kerwhite.kmod.creativemodetab.KCreativeModeTab;
-import static com.kerwhite.kmod.regiter.register.*;
+import static com.kerwhite.kmod.register.register.*;
 
 @Mod(kmod.MODID)
 public class kmod
@@ -22,5 +23,4 @@ public class kmod
         ItemRegister.RegisterBus(FMLJavaModLoadingContext.get().getModEventBus());
         EnchantmentsRegister.RegisterBus(FMLJavaModLoadingContext.get().getModEventBus());
     }
-
 }

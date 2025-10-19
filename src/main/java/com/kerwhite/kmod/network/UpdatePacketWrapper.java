@@ -19,7 +19,6 @@ public class UpdatePacketWrapper
     {
         this.kupdatepacket = null;
         this.kupdatepacket = new KUpdatePacket(friendlyByteBuf);
-        this.SendPacketToServer();
     }
     public static FriendlyByteBuf GetNewBuff()
     {

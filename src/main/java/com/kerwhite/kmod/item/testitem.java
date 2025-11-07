@@ -1,6 +1,6 @@
 package com.kerwhite.kmod.item;
 
-import com.kerwhite.kmod.corelib.screen.ScreenShotHelper;
+import com.kerwhite.kmod.corelib.screenshot.ScreenShotHelper;
 import com.kerwhite.kmod.network.KUpdatePacket;
 import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.network.UniversalPacketWrapper;

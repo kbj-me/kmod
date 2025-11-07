@@ -1,6 +1,6 @@
 package com.kerwhite.kmod.screen;
 
-import com.kerwhite.kmod.corelib.screen.ScreenShotHelper;
+import com.kerwhite.kmod.corelib.screenshot.ScreenShotHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;

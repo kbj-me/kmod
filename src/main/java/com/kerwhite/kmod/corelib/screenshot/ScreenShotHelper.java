@@ -1,4 +1,4 @@
-package com.kerwhite.kmod.corelib.screen;
+package com.kerwhite.kmod.corelib.screenshot;
 
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.NativeImage;
@@ -7,8 +7,9 @@ import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
-
+@SuppressWarnings("ALL")
 public class ScreenShotHelper
 {
     public static class KPixels
@@ -39,6 +40,24 @@ public class ScreenShotHelper
     private static NativeImage nativeImage;
     private static int height;
     private static int width;
+    public static List<Integer> getPixelList()
+    {
+        AtomicReference<List<Integer>> pixels = new AtomicReference<>();
+        ScreenShotHelper.getPixels((kPixels)->
+        {
+            pixels.set(kPixels.pixels);
+        });
+        return pixels.get();
+    }
+    public static KPixels getPixels()
+    {
+        AtomicReference<KPixels> pixels_ = new AtomicReference<>();
+        ScreenShotHelper.getPixels((kPixels)->
+        {
+            pixels_.set(kPixels);
+        });
+        return pixels_.get();
+    }
     public static void getPixels(Consumer<KPixels> consumer)
     {
         ScreenShotHelper.height = MAIN_RENDER_TARGET.height;

@@ -1,6 +1,7 @@
 package com.kerwhite.kmod.network;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
+import com.kerwhite.kmod.network.packet.KPacketBase;
 import com.kerwhite.kmod.worldsaveddata.KWorldSavedData;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,7 +14,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-public class KRequestPack
+public class KRequestPack extends KPacketBase
 {
 
     public KRequestPack()

@@ -2,6 +2,7 @@ package com.kerwhite.kmod.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.kerwhite.kmod.ClientItemExtensions;
 import com.kerwhite.kmod.blockentitywithoutlevelrenderer.KBEWLR;
 import com.kerwhite.kmod.register.EnchantmentsRegister;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -138,11 +139,13 @@ public class SpearItem extends TieredItem implements Vanishable
     }
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        consumer.accept(new IClientItemExtensions() {
-            @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
-                return new KBEWLR();
-            }
-        });
+//        consumer.accept(new IClientItemExtensions() {
+//            @Override
+//            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+//                return new KBEWLR();
+//            }
+//
+//        });
+        consumer.accept(new ClientItemExtensions());
     }
 }

@@ -1,6 +1,7 @@
 package com.kerwhite.kmod.network;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
+import com.kerwhite.kmod.network.packet.KPacketBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -14,7 +15,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class KUpdatePacket
+public class KUpdatePacket extends KPacketBase
 {
     public int maxIO=50;
     public String bindPlayer="";

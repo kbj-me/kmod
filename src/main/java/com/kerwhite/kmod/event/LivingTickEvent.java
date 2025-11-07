@@ -7,6 +7,7 @@ import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.register.EnchantmentsRegister;
 import com.kerwhite.kmod.utils.PlayerSpeed;
 import io.netty.buffer.Unpooled;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,6 +30,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.LogRecord;
 
 @Mod.EventBusSubscriber(modid = kmod.MODID)
 public class LivingTickEvent
@@ -48,7 +50,7 @@ public class LivingTickEvent
             }
             catch (NullPointerException e)
             {
-                p.sendSystemMessage(Component.literal("fuckyouforge"));
+                kmod.LOGGER.info("Kmod getentityspeed cause NullPointerException:"+e.getMessage());
             }
             if(true)
             {

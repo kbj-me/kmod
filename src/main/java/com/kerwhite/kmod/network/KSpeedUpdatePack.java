@@ -1,5 +1,6 @@
 package com.kerwhite.kmod.network;
 
+import com.kerwhite.kmod.network.packet.KPacketBase;
 import com.kerwhite.kmod.utils.PlayerSpeed;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -8,7 +9,7 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class KSpeedUpdatePack
+public class KSpeedUpdatePack extends KPacketBase
 {
     String name="";
     double speed=0.0;

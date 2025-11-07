@@ -11,7 +11,6 @@ public class KUpdatePacketWrapper
     public KUpdatePacketWrapper()
     {
         this.friendlyByteBuf = new FriendlyByteBuf(Unpooled.buffer());
-
     }
     public KUpdatePacket build()
     {

@@ -17,5 +17,6 @@ public class KCreativeModeTabItems
         KCreativeModeTab.addItem(ItemRegister.GOLDEN_SPEAR);
         KCreativeModeTab.addItem(ItemRegister.DIAMOND_SPEAR);
         KCreativeModeTab.addItem(ItemRegister.NETHERITE_SPEAR);
+        KCreativeModeTab.addItem(ItemRegister.CAMERA);
     }
 }

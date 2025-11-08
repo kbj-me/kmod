@@ -1,11 +1,11 @@
 package com.kerwhite.kmod.item;
 
 import com.kerwhite.kmod.corelib.screenshot.ScreenShotHelper;
-import com.kerwhite.kmod.network.KUpdatePacket;
 import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.network.UniversalPacketWrapper;
+import com.kerwhite.kmod.network.packet.c2s.KUpdatePixelPack;
 import com.kerwhite.kmod.screen.GuiOpenWrapper;
-import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,9 +17,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class testitem extends Item {
     public testitem() {
@@ -30,44 +29,20 @@ public class testitem extends Item {
     {
         if(useOnContext.getLevel().isClientSide)
         {
-            BlockPos pos=useOnContext.getClickedPos();
-            KUpdatePacket UPDATE = (KUpdatePacket) new UniversalPacketWrapper<>(KUpdatePacket.class).writeInt(1).writeUtf("2").writeBoolean(false).writeBoolean(true).writeBlockPos(pos).build();
-            ModMessages.sendToServer(UPDATE);
-            //GuiOpenWrapper.openTestScreen(useOnContext.getClickedPos());
+            GuiOpenWrapper.openScreenTransportationScreen(UUID.fromString("380df991-f603-344c-a090-369bad2a924a"));
         }
-
-//        if(useOnContext.getLevel().isClientSide)
-//        {
-//            BlockPos pos = useOnContext.getClickedPos();
-//            BlockEntity blockEntity = useOnContext.getLevel().getBlockEntity(pos);
-//            if(blockEntity instanceof BlockEntityEnergyTransporter beet)
-//            {
-//                Item[] items = beet.getRelativeEnergyAbleBlockEntityWithListOfItems();
-//                for(Item item : items)
-//                {
-//                    if(item != null)
-//                    {
-//                        System.out.println(item.getName(item.getDefaultInstance()).getString());
-//                    }
-//                }
-//            }
-//        }
         return InteractionResult.SUCCESS;
     }
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, @NotNull Player player, @NotNull InteractionHand pUsedHand) {
         if(pLevel.isClientSide)
         {
-            AtomicInteger height = new AtomicInteger();
-            AtomicInteger width = new AtomicInteger();
-            AtomicReference<List<Integer>> pixel = new AtomicReference<>();
-            ScreenShotHelper.getPixels((kPixels)->
+            ScreenShotHelper.getPixels((kpixels)->
             {
-                height.set(kPixels.getHeight());
-                width.set(kPixels.getWidth());
-                pixel.set(kPixels.getPixels());
+                UniversalPacketWrapper.newInstance(KUpdatePixelPack.class).writeUUID(player.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KUpdatePixelPack)wrapper.build()));
+                //PACK = (KUpdatePixelPack) new UniversalPacketWrapper<>(KUpdatePixelPack.class).writeUUID(player.getUUID()).writeCustom(kpixels::toBytes).build();
+                //new UniversalPacketWrapper<>(KUpdatePixelPack.class).writeUUID(player.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KRequestPixelPack)wrapper.build()));
             });
-            GuiOpenWrapper.openFirstGui(height,width,pixel);
         }
         return super.use(pLevel, player, pUsedHand);
     }

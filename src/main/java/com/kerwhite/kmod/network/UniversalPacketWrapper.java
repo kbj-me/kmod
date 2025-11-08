@@ -16,10 +16,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.BitSet;
 import java.util.Date;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 @SuppressWarnings("ALL")
 public class UniversalPacketWrapper<T extends KPacketBase>
 {
+    public interface KCustomBufferUser
+    {
+        public void run(FriendlyByteBuf buf);
+    }
     private Class<T> tClass = null;
     private T packet = null;
     private FriendlyByteBuf buf = null;
@@ -27,6 +32,10 @@ public class UniversalPacketWrapper<T extends KPacketBase>
     {
         this.tClass = cls;
         this.buf = new FriendlyByteBuf(Unpooled.buffer());
+    }
+    public static UniversalPacketWrapper newInstance(Class cls)
+    {
+        return new UniversalPacketWrapper<>(cls);
     }
     public T build()
     {
@@ -128,5 +137,51 @@ public class UniversalPacketWrapper<T extends KPacketBase>
     {
         this.buf.writeLong(i);
         return this;
+    }
+    public UniversalPacketWrapper writeCustom(KCustomBufferUser user)
+    {
+        user.run(this.buf);
+        return this;
+    }
+    public UniversalPacketWrapper async_writeCustom(Consumer<FriendlyByteBuf> consumer,Consumer<UniversalPacketWrapper<T>> consumer2)
+    {
+        Thread thread = new Thread(()->
+        {
+            consumer.accept(this.buf);
+            consumer2.accept(this);
+        });
+        thread.start();
+        return this;
+    }
+    public void async_build(Consumer<T> consumer)
+    {
+        Constructor<T> constructor = null;
+        try
+        {
+            constructor = this.tClass.getConstructor(FriendlyByteBuf.class);
+        }
+        catch (NoSuchMethodException e)
+        {
+            throw new KmodRuntimeException(e);
+        }
+        T packet = null;
+        try
+        {
+            packet = constructor.newInstance(this.buf);
+        }
+        catch (InstantiationException e)
+        {
+            throw new KmodRuntimeException(e);
+        }
+        catch (IllegalAccessException e)
+        {
+            throw new KmodRuntimeException(e);
+        }
+        catch (InvocationTargetException e)
+        {
+            throw new KmodRuntimeException(e);
+        }
+        this.packet = packet;
+        consumer.accept(this.packet);
     }
 }

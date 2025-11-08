@@ -172,7 +172,7 @@ tasks.named('processResources', ProcessResources).configure {
 
 mixin {
     // MixinGradle Settings
-    add sourceSets.main, 'mixins.kmod.refmap.json'
+    add sourceSets.main, 'kmod.mixin-refmap.json'
     config 'mixins.kmod.json'
 }
 

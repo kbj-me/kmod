@@ -14,6 +14,7 @@ import static com.kerwhite.kmod.register.register.*;
 @Mod(kmod.MODID)
 public class kmod
 {
+    public final static boolean ENABLE_NETWORK_FIX = true;
     public final static String MODID="kmod";
     public static final Logger LOGGER = Logger.getLogger("com.kerwhite.kmod");
     @SuppressWarnings("all")

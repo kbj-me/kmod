@@ -1,6 +1,7 @@
 package com.kerwhite.kmod.register;
 
 import com.kerwhite.kmod.item.*;
+import com.kerwhite.kmod.item.photography.Camera;
 import com.kerwhite.kmod.kmod;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
@@ -23,6 +24,9 @@ public class ItemRegister
     public static final RegistryObject<Item> GOLDEN_SPEAR = K_ITEMS.register("golden_spear",()->new SpearItem(Tiers.GOLD,3, -2.4F,new Item.Properties()));
     public static final RegistryObject<Item> DIAMOND_SPEAR = K_ITEMS.register("diamond_spear",()->new SpearItem(Tiers.DIAMOND,3, -2.4F,new Item.Properties()));
     public static final RegistryObject<Item> NETHERITE_SPEAR = K_ITEMS.register("netherite_spear",()->new SpearItem(Tiers.NETHERITE,3, -2.4F,new Item.Properties()));
+
+
+    public static final RegistryObject<Item> CAMERA = K_ITEMS.register("camera", Camera::new);
     public static void RegisterBus(IEventBus bus)
     {
         K_ITEMS.register(bus);

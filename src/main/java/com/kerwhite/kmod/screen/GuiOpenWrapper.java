@@ -7,9 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.UUID;
 
 
 public class GuiOpenWrapper
@@ -19,9 +17,9 @@ public class GuiOpenWrapper
     {
         Minecraft.getInstance().setScreen(new ConfigScreen(Component.translatable("test"),player,level,pos));
     }
-    public static void openFirstGui(AtomicInteger i1, AtomicInteger i2, AtomicReference<List<Integer>> l1)
+    public static void openScreenTransportationScreen(UUID uuid)
     {
-        Minecraft.getInstance().setScreen(new TestScreen2(i1, i2, l1));
+        Minecraft.getInstance().setScreen(new ScreenTransportationScreen(uuid));
     }
     public static void openTestScreen(BlockPos pos)
     {

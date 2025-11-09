@@ -37,11 +37,9 @@ public class testitem extends Item {
     public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, @NotNull Player player, @NotNull InteractionHand pUsedHand) {
         if(pLevel.isClientSide)
         {
-            ScreenShotHelper.getPixels((kpixels)->
+            ScreenShotHelper.getPixelsAsScale(4,(kpixels)->
             {
                 UniversalPacketWrapper.newInstance(KUpdatePixelPack.class).writeUUID(player.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KUpdatePixelPack)wrapper.build()));
-                //PACK = (KUpdatePixelPack) new UniversalPacketWrapper<>(KUpdatePixelPack.class).writeUUID(player.getUUID()).writeCustom(kpixels::toBytes).build();
-                //new UniversalPacketWrapper<>(KUpdatePixelPack.class).writeUUID(player.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KRequestPixelPack)wrapper.build()));
             });
         }
         return super.use(pLevel, player, pUsedHand);

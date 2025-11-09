@@ -2,13 +2,17 @@ package com.kerwhite.kmod.register;
 
 import com.kerwhite.kmod.item.*;
 import com.kerwhite.kmod.item.photography.Camera;
+import com.kerwhite.kmod.item.photography.Viewer;
 import com.kerwhite.kmod.kmod;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 @SuppressWarnings("All")
 public class ItemRegister
 {
@@ -25,10 +29,19 @@ public class ItemRegister
     public static final RegistryObject<Item> DIAMOND_SPEAR = K_ITEMS.register("diamond_spear",()->new SpearItem(Tiers.DIAMOND,3, -2.4F,new Item.Properties()));
     public static final RegistryObject<Item> NETHERITE_SPEAR = K_ITEMS.register("netherite_spear",()->new SpearItem(Tiers.NETHERITE,3, -2.4F,new Item.Properties()));
 
-
-    public static final RegistryObject<Item> CAMERA = K_ITEMS.register("camera", Camera::new);
+    public static RegistryObject<Item> CAMERA = null;
+    public static RegistryObject<Item> VIEWER = null;
     public static void RegisterBus(IEventBus bus)
     {
         K_ITEMS.register(bus);
+        for(IModInfo info : ModList.get().getMods())
+        {
+            if(info.getModId().equals("packetfixer"))
+            {
+                ItemRegister.CAMERA = K_ITEMS.register("camera", Camera::new);
+                ItemRegister.VIEWER = K_ITEMS.register("viewer", Viewer::new);
+            }
+        }
+
     }
 }

@@ -60,7 +60,6 @@ public class ScreenShotHelper
             int w = buf.readInt();
             this.height = h;
             this.width = w;
-            //System.out.println(height*width);
             if(this.pixels!=null){this.pixels.clear();}
             else{this.pixels = new ArrayList<>();}
             int t = 0;
@@ -96,6 +95,42 @@ public class ScreenShotHelper
                     for (int y = 0; y < height; y++)
                     {
                         for (int x = 0; x < width; x++)
+                        {
+                            int red = nativeImage.getRedOrLuminance(x, y) & 0xFF;
+                            int green = nativeImage.getGreenOrLuminance(x, y) & 0xFF;
+                            int blue = nativeImage.getBlueOrLuminance(x, y) & 0xFF;
+                            int pixel = (red << 16) | (green << 8) | blue;
+                            pixels.add(pixel);
+                        }
+                    }
+                    consumer.accept(new KPixels(ScreenShotHelper.height,ScreenShotHelper.width,pixels));
+                }
+
+            }
+            finally
+            {
+                ScreenShotHelper.nativeImage.close();
+            }
+        });
+    }
+    public static void getPixelsAsScale(int scale,Consumer<KPixels> consumer)
+    {
+        ScreenShotHelper.height = MAIN_RENDER_TARGET.height/scale;
+        ScreenShotHelper.width = MAIN_RENDER_TARGET.width/scale;
+        RenderSystem.recordRenderCall(() ->
+        {
+            try
+            {
+                ScreenShotHelper.nativeImage = new NativeImage(MAIN_RENDER_TARGET.width,MAIN_RENDER_TARGET.height,false);
+                RenderSystem.bindTexture(MAIN_RENDER_TARGET.getColorTextureId());
+                if(MAIN_RENDER_TARGET.getColorTextureId()!=0)
+                {
+                    ScreenShotHelper.nativeImage.downloadTexture(0,true);
+                    ScreenShotHelper.nativeImage.flipY();
+                    List<Integer> pixels = new ArrayList<>(height*width);
+                    for (int y = 0; y < MAIN_RENDER_TARGET.height; y+=scale)
+                    {
+                        for (int x = 0; x < MAIN_RENDER_TARGET.width; x+=scale)
                         {
                             int red = nativeImage.getRedOrLuminance(x, y) & 0xFF;
                             int green = nativeImage.getGreenOrLuminance(x, y) & 0xFF;

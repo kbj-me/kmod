@@ -20,5 +20,7 @@
   "config.jade.plugin_kmod.kwailaplugin": "WireLess Energy Transporter Energy Info",
   "kmod.bindplayer": "Binded Player:",
   "kmod.isplayermode": "PlayerMode:",
-  "kmod.maxio": "Max Input/Output:"
+  "kmod.maxio": "Max Input/Output:",
+  "item.kmod.camera": "Camera",
+  "item.kmod.viewer": "Viewer"
 }

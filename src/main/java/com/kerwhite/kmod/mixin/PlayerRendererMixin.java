@@ -15,7 +15,11 @@ public abstract class PlayerRendererMixin
    @Inject(method = "getTextureLocation(Lnet/minecraft/client/player/AbstractClientPlayer;)Lnet/minecraft/resources/ResourceLocation;",cancellable = true,at=@At("HEAD"))
    public void getTextureLocation(AbstractClientPlayer p_117783_, CallbackInfoReturnable<ResourceLocation> cir)
    {
-       cir.setReturnValue(new ResourceLocation(kmod.MODID, "textures/skins/kbj.png"));
+       if(kmod.ENABLE_SKIN_OVERRIDE)
+       {
+           cir.setReturnValue(new ResourceLocation(kmod.MODID, "textures/skins/kbj.png"));
+       }
+
    }
 
 }

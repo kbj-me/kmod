@@ -30,20 +30,20 @@ public class Camera extends Item
     {
         super(new Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
     }
-
-
     @Override
     public void appendHoverText(@NotNull ItemStack p_41421_, @Nullable Level p_41422_, @NotNull List<Component> p_41423_, @NotNull TooltipFlag p_41424_)
     {
+        p_41423_.add(Component.literal("SelectedFeature: "+p_41421_.getOrCreateTag().getInt("SelectedFeature")));
         p_41423_.add(Component.literal("IsOn: "+p_41421_.getOrCreateTag().getBoolean("IsOn")));
         p_41423_.add(Component.literal("FrameCount: "+p_41421_.getOrCreateTag().getInt("FrameCount")));
+        p_41423_.add(Component.literal("Scale: "+p_41421_.getOrCreateTag().getInt("Scale")));
         super.appendHoverText(p_41421_, p_41422_, p_41423_, p_41424_);
     }
-
+    @SuppressWarnings("ALL")
     @Override
     public void inventoryTick(@NotNull ItemStack p_41404_, @NotNull Level p_41405_, @NotNull Entity p_41406_, int p_41407_, boolean p_41408_)
     {
-        if(p_41406_ instanceof Player && !p_41405_.isClientSide() && p_41404_.getOrCreateTag().getBoolean("IsOn"))
+        if(p_41406_ instanceof Player && p_41405_.isClientSide() && p_41404_.getOrCreateTag().getBoolean("IsOn"))
         {
             boolean flag = switch (p_41404_.getOrCreateTag().getInt("FrameCount"))
             {
@@ -54,9 +54,17 @@ public class Camera extends Item
                 case 20 -> true;
                 default -> false;
             };
-            if(flag)
+            if(flag && p_41404_.getOrCreateTag().getInt("Scale")!=0)
             {
-                ScreenShotHelper.getPixels((kpixels)->UniversalPacketWrapper.newInstance(KUpdatePixelPack.class).writeUUID(p_41406_.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KUpdatePixelPack)wrapper.build())));
+                switch (p_41404_.getOrCreateTag().getInt("Scale"))
+                {
+                    case 1:
+                        ScreenShotHelper.getPixels((kpixels)-> UniversalPacketWrapper.newInstance(KUpdatePixelPack.class).writeUUID(p_41406_.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KUpdatePixelPack)wrapper.build())));
+                        break;
+                    default:
+                        ScreenShotHelper.getPixelsAsScale(p_41404_.getOrCreateTag().getInt("Scale"),(kpixels)-> UniversalPacketWrapper.newInstance(KUpdatePixelPack.class).writeUUID(p_41406_.getUUID()).async_writeCustom((Consumer<FriendlyByteBuf>) kpixels::toBytes, (Consumer<UniversalPacketWrapper>) wrapper -> ModMessages.sendToServer((KUpdatePixelPack)wrapper.build())));
+                        break;
+                }
             }
         }
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
@@ -100,6 +108,25 @@ public class Camera extends Item
                                 break;
                         }
                         break;
+                    case 2:
+                        switch (tag.getInt("Scale"))
+                        {
+                            case 0:
+                                tag.putInt("Scale",1);
+                            case 1:
+                                tag.putInt("Scale",2);
+                                player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
+                                break;
+                            case 2:
+                                tag.putInt("Scale",4);
+                                player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
+                                break;
+                            case 4:
+                                tag.putInt("Scale",1);
+                                player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
+                                break;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -111,7 +138,7 @@ public class Camera extends Item
         }
         else
         {
-            if(!level.isClientSide())
+            if(!level.isClientSide() && !(player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof Viewer))
             {
                 switch (tag.getInt("SelectedFeature"))
                 {
@@ -120,12 +147,22 @@ public class Camera extends Item
                         player.sendSystemMessage(Component.literal("Set [SelectedFeature] to 1 [FrameCount]"));
                         break;
                     case 1:
+                        tag.putInt("SelectedFeature", 2);
+                        player.sendSystemMessage(Component.literal("Set [SelectedFeature] to 2 [Scale]"));
+                        break;
+                    case 2:
                         tag.putInt("SelectedFeature", 0);
                         player.sendSystemMessage(Component.literal("Set [SelectedFeature] to 0 [IsOn]"));
                         break;
                     default:
                         break;
                 }
+            }
+            else if(!level.isClientSide() && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof Viewer)
+            {
+                player.getItemInHand(InteractionHand.OFF_HAND).getOrCreateTag().putUUID("UUID",player.getUUID());
+                player.getItemInHand(InteractionHand.OFF_HAND).getOrCreateTag().putString("Name",player.getName().getString());
+                player.sendSystemMessage(Component.literal("Set player uuid to: "+ player.getUUID() + "player name to: " + player.getName().getString()));
             }
         }
         return super.use(level, player, interactionHand);

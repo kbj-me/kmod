@@ -14,7 +14,7 @@ public class AbstractClientPlayerMixin
     @Inject(method = "getSkinTextureLocation",at=@At("HEAD"),cancellable = true)
     public void getSkinTextureLocation(CallbackInfoReturnable<ResourceLocation> cir)
     {
-        if(true)
+        if(kmod.ENABLE_SKIN_OVERRIDE)
         {
             cir.setReturnValue(new ResourceLocation(kmod.MODID, "textures/skins/kbj.png"));
         }

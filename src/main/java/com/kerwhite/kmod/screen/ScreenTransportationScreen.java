@@ -25,6 +25,12 @@ public class ScreenTransportationScreen extends Screen
     AtomicReference<List<Integer>> ppixel;
     UUID uuid;
     @Override
+    protected void init()
+    {
+        ClientPixelCache.set(null);
+        super.init();
+    }
+    @Override
     public void tick()
     {
         ModMessages.sendToServer((KRequestPixelPack) new UniversalPacketWrapper<>(KRequestPixelPack.class).writeUUID(uuid).build());
@@ -44,18 +50,24 @@ public class ScreenTransportationScreen extends Screen
     public void render(@NotNull GuiGraphics guiGraphics, int p_281550_, int p_282878_, float p_282465_)
     {
         this.renderBackground(guiGraphics);
-        this.pheight = new AtomicInteger(ClientPixelCache.get().getHeight());
-        this.pwitch = new AtomicInteger(ClientPixelCache.get().getWidth());
-        this.ppixel = new AtomicReference<>(ClientPixelCache.get().getPixels());
+        if(ClientPixelCache.get()!=null)
+        {
+            this.pheight = new AtomicInteger(ClientPixelCache.get().getHeight());
+            this.pwitch = new AtomicInteger(ClientPixelCache.get().getWidth());
+            this.ppixel = new AtomicReference<>(ClientPixelCache.get().getPixels());
+        }
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferBuilder = tesselator.getBuilder();
         guiGraphics.pose().pushPose();
-        float scaleX = (float) this.width / this.pwitch.get();
-        float scaleY = (float) this.height / this.pheight.get();
-        guiGraphics.pose().scale(scaleX, scaleY, 1.0f);
+        if(this.ppixel != null && this.pheight != null && this.pwitch != null)
+        {
+            float scaleX = (float) this.width / this.pwitch.get();
+            float scaleY = (float) this.height / this.pheight.get();
+            guiGraphics.pose().scale(scaleX, scaleY, 1.0f);
+        }
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        if(this.ppixel.get() != null)
+        if(this.ppixel != null && this.pheight != null && this.pwitch != null)
         {
             Iterator<Integer> i = this.ppixel.get().iterator();
             for (int y = 0; y < this.pheight.get(); y++)

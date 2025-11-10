@@ -1,6 +1,5 @@
 package com.kerwhite.kmod.corelib.screenshot;
 
-import com.kerwhite.kmod.network.UniversalPacketWrapper;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -130,13 +129,18 @@ public class ScreenShotHelper
                     List<Integer> pixels = new ArrayList<>(height*width);
                     for (int y = 0; y < MAIN_RENDER_TARGET.height; y+=scale)
                     {
+                        int cnt = 0;
                         for (int x = 0; x < MAIN_RENDER_TARGET.width; x+=scale)
                         {
-                            int red = nativeImage.getRedOrLuminance(x, y) & 0xFF;
-                            int green = nativeImage.getGreenOrLuminance(x, y) & 0xFF;
-                            int blue = nativeImage.getBlueOrLuminance(x, y) & 0xFF;
-                            int pixel = (red << 16) | (green << 8) | blue;
-                            pixels.add(pixel);
+                            cnt++;
+                            if(cnt<=width)
+                            {
+                                int red = nativeImage.getRedOrLuminance(x, y) & 0xFF;
+                                int green = nativeImage.getGreenOrLuminance(x, y) & 0xFF;
+                                int blue = nativeImage.getBlueOrLuminance(x, y) & 0xFF;
+                                int pixel = (red << 16) | (green << 8) | blue;
+                                pixels.add(pixel);
+                            }
                         }
                     }
                     consumer.accept(new KPixels(ScreenShotHelper.height,ScreenShotHelper.width,pixels));

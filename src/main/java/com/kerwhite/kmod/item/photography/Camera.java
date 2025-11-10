@@ -45,12 +45,13 @@ public class Camera extends Item
     {
         if(p_41406_ instanceof Player && p_41405_.isClientSide() && p_41404_.getOrCreateTag().getBoolean("IsOn"))
         {
+            long tick = Minecraft.getInstance().level.getGameTime();
             boolean flag = switch (p_41404_.getOrCreateTag().getInt("FrameCount"))
             {
                 case 5 ->
-                        p_41407_ % 20 == 0 || p_41407_ % 20 == 3 || p_41407_ % 20 == 7 || p_41407_ % 20 == 11 || p_41407_ % 20 == 14;
+                        tick % 20 == 0 || tick % 20 == 3 || tick % 20 == 7 || tick % 20 == 11 || tick % 20 == 14;
                 case 10 ->
-                        p_41407_ % 20 == 0 || p_41407_ % 20 == 1 || p_41407_ % 20 == 3 || p_41407_ % 20 == 5 || p_41407_ % 20 == 7 || p_41407_ % 20 == 9 || p_41407_ % 20 == 11 || p_41407_ % 20 == 13 || p_41407_ % 20 == 15 || p_41407_ % 20 == 17 || p_41407_ % 20 == 19;
+                        tick % 20 == 0 || tick % 20 == 1 || tick % 20 == 3 || tick % 20 == 5 || tick % 20 == 7 || tick % 20 == 9 || tick % 20 == 11 || tick % 20 == 13 || tick % 20 == 15 || tick % 20 == 17 || tick % 20 == 19;
                 case 20 -> true;
                 default -> false;
             };
@@ -122,6 +123,10 @@ public class Camera extends Item
                                 player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
                                 break;
                             case 4:
+                                tag.putInt("Scale",8);
+                                player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
+                                break;
+                            case 8:
                                 tag.putInt("Scale",1);
                                 player.sendSystemMessage(Component.literal("Set [Scale] to "+tag.getInt("Scale")));
                                 break;

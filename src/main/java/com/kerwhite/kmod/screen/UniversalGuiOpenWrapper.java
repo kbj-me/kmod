@@ -1,6 +1,7 @@
 package com.kerwhite.kmod.screen;
 
 import com.kerwhite.kmod.KmodRuntimeException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 
 import java.lang.reflect.Constructor;
@@ -23,6 +24,10 @@ public class UniversalGuiOpenWrapper <T extends Screen>
     {
         this.tClass = cls;
         this.args.addAll(Arrays.asList(args));
+    }
+    public void setScreen()
+    {
+        Minecraft.getInstance().setScreen(this.getScreen());
     }
     public UniversalGuiOpenWrapper<T> addArgsClass(Class... cls)
     {
@@ -47,10 +52,10 @@ public class UniversalGuiOpenWrapper <T extends Screen>
         {
             int i = 0;
             boolean flag = true;
-            if(this.args.size()!=constructor.getParameterTypes().length){break;}
+            if(this.args.size()!=constructor.getParameterTypes().length){continue;}
             for(Class cls : constructor.getParameterTypes())
             {
-                if(this.args.get(i).getClass().isAssignableFrom(cls))
+                if(!cls.isAssignableFrom(this.args.get(i).getClass()))
                 {
                     flag = false;
                     break;

@@ -1,6 +1,7 @@
 package com.kerwhite.kmod.item.photography;
 
-import com.kerwhite.kmod.screen.GuiOpenWrapper;
+import com.kerwhite.kmod.screen.ScreenTransportationScreen;
+import com.kerwhite.kmod.screen.UniversalGuiOpenWrapper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -50,14 +51,14 @@ public class Viewer extends Item
             playerList  = Objects.requireNonNull(level.getServer()).getPlayerList().getPlayers();
             for(ServerPlayer p : playerList)
             {
-                System.out.println(p.getName().getString());
+                //System.out.println(p.getName().getString());
             }
         }
         else if(!player.isCrouching() && level.isClientSide() && !(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof Camera))
         {
             try
             {
-                GuiOpenWrapper.openScreenTransportationScreen(tag.getUUID("UUID"));
+                UniversalGuiOpenWrapper.newInstance(ScreenTransportationScreen.class).addArgs(tag.getUUID("UUID")).autoArgClass().build().setScreen();
             }
             catch (Exception e)
             {

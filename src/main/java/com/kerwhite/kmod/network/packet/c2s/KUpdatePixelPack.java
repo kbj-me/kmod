@@ -20,7 +20,7 @@ public class KUpdatePixelPack extends KPacketBase
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(()->
         {
-            ServerPixelCache.get().put(uuid,kPixels);
+            ServerPixelCache.setPixels(this.uuid,this.kPixels);
         });
         context.setPacketHandled(true);
         return true;
@@ -29,7 +29,7 @@ public class KUpdatePixelPack extends KPacketBase
     public void toBytes(FriendlyByteBuf buf)
     {
         buf.writeUUID(this.uuid);
-        kPixels.toBytes(buf);
+        this.kPixels.toBytes(buf);
     }
     public KUpdatePixelPack()
     {
@@ -38,6 +38,6 @@ public class KUpdatePixelPack extends KPacketBase
     public KUpdatePixelPack(FriendlyByteBuf buf)
     {
         this.uuid = buf.readUUID();
-        kPixels.fromBuf(buf);
+        this.kPixels.fromBuf(buf);
     }
 }

@@ -1,9 +1,8 @@
 package com.kerwhite.kmod.item;
 
 
-import com.kerwhite.kmod.network.KRequestPack;
-import com.kerwhite.kmod.network.ModMessages;
 import com.kerwhite.kmod.screen.GuiOpenWrapper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 public class EnergyViewerGUI extends Item {
@@ -29,8 +27,6 @@ public class EnergyViewerGUI extends Item {
         if(level.isClientSide())
         {
             GuiOpenWrapper.openFirstGui(player,level,pos);
-
-
         }
 
        // ItemStack itemStack = useOnContext.getPlayer().getItemInHand(InteractionHand.MAIN_HAND);

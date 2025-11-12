@@ -3,13 +3,10 @@ package com.kerwhite.kmod.network.packet.s2c;
 import com.kerwhite.kmod.corelib.screenshot.ScreenShotHelper;
 import com.kerwhite.kmod.network.packet.KPacketBase;
 import com.kerwhite.kmod.only.client.ClientPixelCache;
-import com.kerwhite.kmod.screen.GuiOpenWrapper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 public class KFeedBackPixelPack extends KPacketBase

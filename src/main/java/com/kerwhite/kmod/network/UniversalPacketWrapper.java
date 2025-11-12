@@ -33,7 +33,7 @@ public class UniversalPacketWrapper<T extends KPacketBase>
         this.tClass = cls;
         this.buf = new FriendlyByteBuf(Unpooled.buffer());
     }
-    public static UniversalPacketWrapper newInstance(Class cls)
+    public static <T extends KPacketBase> UniversalPacketWrapper<T> newInstance(Class<T> cls)
     {
         return new UniversalPacketWrapper<>(cls);
     }

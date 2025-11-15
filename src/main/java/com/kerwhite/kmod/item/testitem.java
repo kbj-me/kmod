@@ -1,10 +1,6 @@
 package com.kerwhite.kmod.item;
 
-import com.kerwhite.kmod.screen.ConfigScreen;
-import com.kerwhite.kmod.screen.UniversalGuiOpenWrapper;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import com.kerwhite.kmod.kmod;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -25,11 +21,13 @@ public class testitem extends Item {
     {
         if(useOnContext.getLevel().isClientSide())
         {
-            Level level = useOnContext.getLevel();
-            Player player = useOnContext.getPlayer();
-            BlockPos pos = useOnContext.getClickedPos();
-            Minecraft.getInstance().setScreen(UniversalGuiOpenWrapper.newInstance(ConfigScreen.class).addArgs(Component.translatable("test"),player,level,pos).autoArgClass().build().getScreen());
+            //ClientSkinCache.requestSkin(UUID.fromString("aae57967-89de-4961-83a1-832964af60a7"),(rl)->{System.out.println(rl.getPath());});
+            kmod.ENABLE_SKIN_OVERRIDE = true;
 
+//            Level level = useOnContext.getLevel();
+//            Player player = useOnContext.getPlayer();
+//            BlockPos pos = useOnContext.getClickedPos();
+//            Minecraft.getInstance().setScreen(UniversalGuiOpenWrapper.newInstance(ConfigScreen.class).addArgs(Component.translatable("test"),player,level,pos).autoArgClass().build().getScreen());
             //Minecraft.getInstance().setScreen(UniversalGuiOpenWrapper.newInstance(ConfigScreen.class).addArgsClass(Component.class,Player.class,Level.class,BlockPos.class).addArgs(Component.translatable("test"),player,level,pos).build().getScreen());
         }
 //        if(useOnContext.getLevel().isClientSide)

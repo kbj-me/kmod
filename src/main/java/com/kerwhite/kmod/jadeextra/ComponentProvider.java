@@ -1,20 +1,19 @@
 package com.kerwhite.kmod.jadeextra;
 
 import com.kerwhite.kmod.blockentity.BlockEntityEnergyTransporter;
-import com.kerwhite.kmod.item.EnergyViewer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec2;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
+import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
-import snownee.jade.api.IServerDataProvider;
-import net.minecraft.nbt.CompoundTag;
-import snownee.jade.api.ui.IElementHelper;
 import snownee.jade.api.ui.IElement;
-import net.minecraft.world.item.ItemStack;
-import  net.minecraft.world.phys.Vec2;
+import snownee.jade.api.ui.IElementHelper;
 public enum ComponentProvider implements IBlockComponentProvider,IServerDataProvider<BlockAccessor>
 {
     INSTANCE;

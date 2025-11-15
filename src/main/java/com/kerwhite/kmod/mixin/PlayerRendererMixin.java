@@ -19,7 +19,9 @@ public abstract class PlayerRendererMixin
        {
            cir.setReturnValue(new ResourceLocation(kmod.MODID, "textures/skins/kbj.png"));
        }
-
+       else if(kmod.DISABLE_OTHER_MOD_SKIN_OVERRIDE)
+       {
+           cir.setReturnValue(p_117783_.getSkinTextureLocation());
+       }
    }
-
 }

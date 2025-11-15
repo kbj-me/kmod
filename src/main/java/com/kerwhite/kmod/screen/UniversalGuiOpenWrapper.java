@@ -16,14 +16,13 @@ public class UniversalGuiOpenWrapper <T extends Screen>
     private ArrayList<Object> args = new ArrayList<>();
     private ArrayList<Class> argsClass = new ArrayList<>();
     private Constructor<T> constructor = null;
-    public static <T extends Screen> UniversalGuiOpenWrapper<T> newInstance(Class<T> cls,Object... args)
+    public static <T extends Screen> UniversalGuiOpenWrapper<T> newInstance(Class<T> cls)
     {
-        return new UniversalGuiOpenWrapper<>(cls, args);
+        return new UniversalGuiOpenWrapper<>(cls);
     }
-    public UniversalGuiOpenWrapper(Class<T> cls,Object... args)
+    public UniversalGuiOpenWrapper(Class<T> cls)
     {
         this.tClass = cls;
-        this.args.addAll(Arrays.asList(args));
     }
     public void setScreen()
     {

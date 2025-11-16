@@ -44,7 +44,6 @@ public class RenderLevelStageEventHandler
         var cam = Minecraft.getInstance().gameRenderer.getMainCamera();
         event.getPoseStack().pushPose();
         event.getPoseStack().translate(-cam.getPosition().x, -cam.getPosition().y, -cam.getPosition().z);
-
         var consumer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(ModRenderType.SIMPLE_VERTEX);
         var mat = event.getPoseStack().last().pose();
         consumer.vertex(mat,0,0,0).color(255,255,255,255).endVertex();

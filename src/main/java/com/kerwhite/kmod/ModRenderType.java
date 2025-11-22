@@ -30,6 +30,6 @@ public class ModRenderType extends RenderStateShard
     }
     public static void registerRenderType()
     {
-        END_PROTAL= RenderType.create("kmod_end_portal", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setShaderState(ModShaderStateShard.END_PORTAL).setTextureState(RenderStateShard.MultiTextureStateShard.builder().add(TheEndPortalRenderer.END_SKY_LOCATION, false, false).add(TheEndPortalRenderer.END_PORTAL_LOCATION, false, false).build()).createCompositeState(false));
+        END_PROTAL= RenderType.create("kmod_end_portal", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, false, false, RenderType.CompositeState.builder().setWriteMaskState(RenderStateShard.COLOR_WRITE).setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST).setShaderState(ModShaderStateShard.END_PORTAL).setTextureState(RenderStateShard.MultiTextureStateShard.builder().add(TheEndPortalRenderer.END_SKY_LOCATION, false, false).add(TheEndPortalRenderer.END_PORTAL_LOCATION, false, false).build()).createCompositeState(false));
     }
 }

@@ -28,7 +28,7 @@ public class ItemRegister
     public static final RegistryObject<Item> GOLDEN_SPEAR = K_ITEMS.register("golden_spear",()->new SpearItem(Tiers.GOLD,3, -2.4F,new Item.Properties()));
     public static final RegistryObject<Item> DIAMOND_SPEAR = K_ITEMS.register("diamond_spear",()->new SpearItem(Tiers.DIAMOND,3, -2.4F,new Item.Properties()));
     public static final RegistryObject<Item> NETHERITE_SPEAR = K_ITEMS.register("netherite_spear",()->new SpearItem(Tiers.NETHERITE,3, -2.4F,new Item.Properties()));
-
+    public static final RegistryObject<Item> MULTI_MODEL_ITEM = K_ITEMS.register("multi_model_item",MulitModelItem::new);
     public static RegistryObject<Item> CAMERA = null;
     public static RegistryObject<Item> VIEWER = null;
     public static void RegisterBus(IEventBus bus)

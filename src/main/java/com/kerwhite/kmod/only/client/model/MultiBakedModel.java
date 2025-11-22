@@ -1,5 +1,7 @@
 package com.kerwhite.kmod.only.client.model;
 
+import com.kerwhite.kmod.kmod;
+import com.kerwhite.kmod.register.ItemRegister;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -8,7 +10,9 @@ import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -16,17 +20,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @SuppressWarnings("ALL")
 public class MultiBakedModel implements BakedModel
 {
     private final List<BakedModel> models = new ArrayList<>();
+    public MultiBakedModel(){}
     private final ItemOverrides overrides = new ItemOverrides()
     {
         @Override
@@ -46,10 +56,11 @@ public class MultiBakedModel implements BakedModel
                     String modelLocation = modelString.concat(Integer.toString(i)).concat("_location");
                     if (models.contains(modelModId) && models.contains(modelLocation))
                     {
-                        String $modelModId = tag.getString(modelModId);
-                        String $modelLocation = tag.getString(modelLocation);
+                        String $modelModId = models.getString(modelModId);
+                        String $modelLocation = models.getString(modelLocation);
                         ResourceLocation $$modelLocation = ResourceLocation.fromNamespaceAndPath($modelModId, $modelLocation);
-                        BakedModel $model = manager.getModel($$modelLocation);
+                        ModelResourceLocation modelResourceLocation = new ModelResourceLocation($$modelLocation,"inventory");
+                        BakedModel $model = manager.getModel(modelResourceLocation);
                         $models.add($model);
                     }
                     else
@@ -57,7 +68,7 @@ public class MultiBakedModel implements BakedModel
                         break;
                     }
                 }
-                return new MultiBakedModel(((BakedModel[]) $models.toArray()));
+                return new MultiBakedModel($models.toArray(new BakedModel[0]));
             }
             return super.resolve(model, stack, level, entity, seed);
         }
@@ -72,16 +83,6 @@ public class MultiBakedModel implements BakedModel
         }
     }
 
-    public MultiBakedModel getModel(ResourceLocation... locations)
-    {
-        ModelManager manager = Minecraft.getInstance().getModelManager();
-        List<BakedModel> models = new ArrayList<>();
-        for (ResourceLocation location : locations)
-        {
-            models.add(manager.getModel(location));
-        }
-        return new MultiBakedModel(((BakedModel[]) models.toArray()));
-    }
 
     @Override
     public @NotNull List<BakedQuad> getQuads(@Nullable BlockState p_235039_, @Nullable Direction p_235040_, @NotNull RandomSource p_235041_)
@@ -122,10 +123,11 @@ public class MultiBakedModel implements BakedModel
     }
 
     @Override
-    public @NotNull TextureAtlasSprite getParticleIcon()
+    public TextureAtlasSprite getParticleIcon()
     {
-        return this.models.get(0).getParticleIcon();
+        return null;
     }
+
 
     @Override
     public @NotNull BakedModel applyTransform(@NotNull ItemDisplayContext transformType, @NotNull PoseStack poseStack, boolean applyLeftHandTransform)
@@ -137,12 +139,23 @@ public class MultiBakedModel implements BakedModel
             transfromModels.add(model.applyTransform(transformType, poseStack, applyLeftHandTransform));
             poseStack.popPose();
         });
-        return new MultiBakedModel(((BakedModel[]) transfromModels.toArray()));
+        return new MultiBakedModel(transfromModels.toArray(new BakedModel[0]));
     }
 
     @Override
     public @NotNull ItemOverrides getOverrides()
     {
         return this.overrides;
+    }
+    @Mod.EventBusSubscriber(modid = kmod.MODID,bus = Mod.EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
+    public static class EventHandler
+    {
+        @SubscribeEvent
+        public static void onModelBaked(ModelEvent.ModifyBakingResult event)
+        {
+            Map<ResourceLocation, BakedModel> modelRegistry = event.getModels();
+            ModelResourceLocation location = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(ItemRegister.MULTI_MODEL_ITEM.get()), "inventory");
+            modelRegistry.put(location,new MultiBakedModel());
+        }
     }
 }

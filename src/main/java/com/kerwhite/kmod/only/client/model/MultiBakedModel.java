@@ -146,19 +146,12 @@ public class MultiBakedModel implements BakedModel
     @Override
     public @NotNull BakedModel applyTransform(@NotNull ItemDisplayContext transformType, @NotNull PoseStack poseStack, boolean applyLeftHandTransform)
     {
-        for(BakedModel model : this.models)
+        if (this.models.isEmpty())
         {
-            model.applyTransform(transformType, poseStack, applyLeftHandTransform);
+            return this;
         }
+        this.models.get(0).getTransforms().getTransform(transformType).apply(applyLeftHandTransform,poseStack);
         return this;
-//        List<BakedModel> transfromModels = new ArrayList<>();
-//        this.models.forEach((model) ->
-//        {
-//            poseStack.pushPose();
-//            transfromModels.add(model.applyTransform(transformType, poseStack, applyLeftHandTransform));
-//            poseStack.popPose();
-//        });
-//        return new MultiBakedModel(transfromModels.toArray(new BakedModel[0]));
     }
 
     @Override
